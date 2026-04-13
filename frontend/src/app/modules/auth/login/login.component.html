@@ -1,0 +1,69 @@
+<div class="auth-page">
+  <div class="auth-card fade-in">
+    <div class="auth-card__logo">
+      <span class="auth-card__icon">N</span>
+      <h1 class="auth-card__brand">Nutrex</h1>
+      <p class="auth-card__tagline">Tu nutricionista con inteligencia artificial</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <div class="form-group">
+        <label class="form-label" for="email">Correo electronico</label>
+        <div class="input-wrapper">
+          <span class="input-icon">email</span>
+          <input
+            id="email"
+            class="input"
+            [class.input--error]="email.invalid && email.touched"
+            formControlName="email"
+            type="email"
+            placeholder="tu@correo.com"
+            autocomplete="email">
+        </div>
+        <span class="form-error" *ngIf="email.invalid && email.touched">
+          Ingresa un correo valido
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="password">Contrasena</label>
+        <div class="input-wrapper">
+          <span class="input-icon">lock</span>
+          <input
+            id="password"
+            class="input"
+            [class.input--error]="password.invalid && password.touched"
+            formControlName="password"
+            [type]="showPass ? 'text' : 'password'"
+            placeholder="Minimo 8 caracteres"
+            autocomplete="current-password">
+          <button
+            type="button"
+            class="input-toggle"
+            (click)="showPass = !showPass"
+            [attr.aria-label]="showPass ? 'Ocultar' : 'Mostrar'">
+            {{ showPass ? 'Ocultar' : 'Mostrar' }}
+          </button>
+        </div>
+        <span class="form-error" *ngIf="password.invalid && password.touched">
+          Minimo 8 caracteres
+        </span>
+      </div>
+
+      <div class="form-alert" *ngIf="errorMsg" role="alert">
+        <strong>Error:</strong>
+        <span>{{ errorMsg }}</span>
+      </div>
+
+      <button type="submit" class="btn btn-primary auth-btn" [disabled]="loading">
+        <span *ngIf="!loading">Iniciar sesion</span>
+        <span *ngIf="loading">Cargando...</span>
+      </button>
+    </form>
+
+    <p class="auth-card__footer">
+      No tienes cuenta?
+      <a routerLink="/auth/register" class="auth-link">Registrate gratis</a>
+    </p>
+  </div>
+</div>

@@ -1,0 +1,103 @@
+<div class="chat-page">
+
+  <!-- Cabecera del chat -->
+  <header class="chat-header">
+    <div class="chat-header__bot">
+      <div class="bot-avatar">🤖</div>
+      <div class="bot-info">
+        <span class="bot-name">NutriBot IA</span>
+        <span class="bot-status">
+          <span class="status-dot"></span>
+          En línea · Especialista en diabetes
+        </span>
+      </div>
+    </div>
+    <button class="chat-header__clear btn btn-ghost"
+            (click)="clearChat()"
+            title="Limpiar conversación">
+      <span class="material-icons">refresh</span>
+    </button>
+  </header>
+
+  <!-- Área de mensajes -->
+  <main class="chat-messages" role="log" aria-live="polite" aria-label="Conversación con NutriBot">
+
+    <!-- Mensajes -->
+    <div *ngFor="let msg of messages"
+         class="message fade-in"
+         [class.message--user]="msg.role === 'user'"
+         [class.message--bot]="msg.role === 'assistant'">
+
+      <!-- Avatar del bot -->
+      <div class="message__avatar" *ngIf="msg.role === 'assistant'">🤖</div>
+
+      <!-- Burbuja de mensaje -->
+      <div class="message__bubble">
+        <p class="message__text">{{ msg.content }}</p>
+        <span class="message__time">
+          {{ msg.timestamp | date:'HH:mm' }}
+        </span>
+      </div>
+
+      <!-- Avatar del usuario -->
+      <div class="message__avatar message__avatar--user"
+           *ngIf="msg.role === 'user'">👤</div>
+
+    </div>
+
+    <!-- Indicador de escritura -->
+    <div class="message message--bot typing-indicator fade-in" *ngIf="isTyping">
+      <div class="message__avatar">🤖</div>
+      <div class="message__bubble">
+        <div class="typing-dots">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sugerencias rápidas -->
+    <div class="suggestions fade-in" *ngIf="showSuggestions">
+      <p class="suggestions__label">Preguntas frecuentes:</p>
+      <div class="suggestions__grid">
+        <button *ngFor="let s of quickSuggestions"
+                class="suggestion-pill"
+                (click)="sendMessage(s)">
+          {{ s }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Ancla para auto-scroll -->
+    <div #messagesEnd></div>
+
+  </main>
+
+  <!-- Input de mensaje -->
+  <footer class="chat-input-area">
+    <div class="chat-input-wrapper">
+
+      <textarea
+        class="chat-input"
+        [(ngModel)]="inputText"
+        (keydown)="onKeyDown($event)"
+        placeholder="Escribe tu pregunta nutricional..."
+        rows="1"
+        [disabled]="isTyping"
+        aria-label="Escribe un mensaje">
+      </textarea>
+
+      <button
+        class="send-btn"
+        (click)="sendMessage()"
+        [disabled]="!inputText.trim() || isTyping"
+        aria-label="Enviar mensaje">
+        <span class="material-icons">send</span>
+      </button>
+
+    </div>
+    <p class="chat-disclaimer">
+      NutriBot no reemplaza al médico · Basado en tu plan personalizado
+    </p>
+  </footer>
+
+</div>

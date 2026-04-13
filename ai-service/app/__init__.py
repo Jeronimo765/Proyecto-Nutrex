@@ -1,0 +1,1 @@
+"""Nutrex AI service package."""

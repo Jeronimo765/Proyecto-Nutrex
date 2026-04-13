@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Nutrex — Tu nutricionista con IA</title>
+
+  <!-- PWA Meta Tags -->
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description"
+        content="Nutrex — Nutricionista personalizada con IA para condiciones médicas">
+  <meta name="theme-color" content="#2C3B0A">
+
+  <!-- PWA iOS -->
+  <meta name="apple-mobile-web-app-capable"          content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title"            content="Nutrex">
+
+  <!-- Open Graph -->
+  <meta property="og:title"       content="Nutrex — Nutricionista IA">
+  <meta property="og:description" content="Tu plan nutricional personalizado con IA">
+  <meta property="og:type"        content="website">
+
+  <!-- Manifest PWA -->
+  <link rel="manifest" href="manifest.webmanifest">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <!-- Apple Touch Icon -->
+  <link rel="apple-touch-icon" href="assets/icons/icon-192x192.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Material Icons -->
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<body>
+
+  <!-- Filtros SVG para accesibilidad daltonismo -->
+  <svg class="vision-filters" aria-hidden="true">
+    <defs>
+      <filter id="deuteranopia">
+        <feColorMatrix type="matrix"
+          values="0.625 0.375 0 0 0
+                  0.700 0.300 0 0 0
+                  0.000 0.300 0.7 0 0
+                  0 0 0 1 0"/>
+      </filter>
+      <filter id="protanopia">
+        <feColorMatrix type="matrix"
+          values="0.567 0.433 0 0 0
+                  0.558 0.442 0 0 0
+                  0.000 0.242 0.758 0 0
+                  0 0 0 1 0"/>
+      </filter>
+      <filter id="tritanopia">
+        <feColorMatrix type="matrix"
+          values="0.95  0.05  0    0 0
+                  0     0.433 0.567 0 0
+                  0     0.475 0.525 0 0
+                  0 0 0 1 0"/>
+      </filter>
+    </defs>
+  </svg>
+
+  <app-root></app-root>
+
+</body>
+</html>

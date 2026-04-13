@@ -1,0 +1,131 @@
+<div class="dashboard container">
+  <header class="dashboard__header fade-in">
+    <div class="dashboard__intro">
+      <h1 class="dashboard__greeting">{{ greeting }}, Juan</h1>
+      <p class="dashboard__subtitle">
+        Semana 3 de tu plan · Hoy {{ today | date:'EEEE d ''de'' MMMM':'':'es' }}
+      </p>
+    </div>
+
+    <div class="dashboard__badges">
+      <span class="badge badge--green">Diabetes</span>
+    </div>
+  </header>
+
+  <section class="dashboard__summary fade-in">
+    <div class="summary-card card card--white">
+      <div class="summary-card__top">
+        <span class="summary-card__label">Calorias hoy</span>
+        <span class="badge badge--green">{{ getProgress(calories, caloriesGoal) }}%</span>
+      </div>
+
+      <div class="summary-card__value">
+        {{ calories }} <span>/ {{ caloriesGoal }} kcal</span>
+      </div>
+
+      <div class="progress">
+        <div
+          class="progress__fill"
+          [style.width.%]="getProgress(calories, caloriesGoal)"
+          [ngClass]="getProgressClass(getProgress(calories, caloriesGoal))">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="dashboard__macros">
+    <h2 class="section-title">Nutrientes del dia</h2>
+
+    <div class="macros-grid">
+      <div class="macro-card card card--white">
+        <span class="macro-card__icon">C</span>
+        <span class="macro-card__label">Carbohidratos</span>
+        <span class="macro-card__value">{{ carbs }}g</span>
+        <div class="progress">
+          <div
+            class="progress__fill progress__fill--warning"
+            [style.width.%]="getProgress(carbs, carbsGoal)">
+          </div>
+        </div>
+        <span class="macro-card__meta">meta: {{ carbsGoal }}g</span>
+      </div>
+
+      <div class="macro-card card card--white">
+        <span class="macro-card__icon">P</span>
+        <span class="macro-card__label">Proteinas</span>
+        <span class="macro-card__value">{{ protein }}g</span>
+        <div class="progress">
+          <div class="progress__fill" [style.width.%]="getProgress(protein, proteinGoal)"></div>
+        </div>
+        <span class="macro-card__meta">meta: {{ proteinGoal }}g</span>
+      </div>
+
+      <div class="macro-card card card--white">
+        <span class="macro-card__icon">G</span>
+        <span class="macro-card__label">Grasas</span>
+        <span class="macro-card__value">{{ fats }}g</span>
+        <div class="progress">
+          <div class="progress__fill" [style.width.%]="getProgress(fats, fatsGoal)"></div>
+        </div>
+        <span class="macro-card__meta">meta: {{ fatsGoal }}g</span>
+      </div>
+
+      <div class="macro-card card card--white">
+        <span class="macro-card__icon">F</span>
+        <span class="macro-card__label">Fibra</span>
+        <span class="macro-card__value">{{ fiber }}g</span>
+        <div class="progress">
+          <div class="progress__fill" [style.width.%]="getProgress(fiber, fiberGoal)"></div>
+        </div>
+        <span class="macro-card__meta">meta: {{ fiberGoal }}g</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="dashboard__meals">
+    <h2 class="section-title">Comidas de hoy</h2>
+
+    <div class="meal-list">
+      <div class="meal-item card card--white">
+        <span class="meal-item__icon">D</span>
+        <div class="meal-item__info">
+          <span class="meal-item__name">Desayuno</span>
+          <span class="meal-item__detail">Avena con fresas - 320 kcal</span>
+        </div>
+        <span class="badge badge--green">Completado</span>
+      </div>
+
+      <div class="meal-item card card--white">
+        <span class="meal-item__icon">A</span>
+        <div class="meal-item__info">
+          <span class="meal-item__name">Almuerzo</span>
+          <span class="meal-item__detail">Pollo + quinoa + brocoli - 480 kcal</span>
+        </div>
+        <span class="badge badge--green">Completado</span>
+      </div>
+
+      <div class="meal-item card card--white meal-item--pending">
+        <span class="meal-item__icon">C</span>
+        <div class="meal-item__info">
+          <span class="meal-item__name">Cena</span>
+          <span class="meal-item__detail">Toca para registrar tu cena</span>
+        </div>
+        <span class="meal-item__action">Pendiente</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="dashboard__tip card card--green fade-in">
+    <div class="tip__header">
+      <span class="tip__icon">NB</span>
+      <strong>Consejo de NutriBot</strong>
+    </div>
+    <p>
+      Tu nivel de fibra esta excelente. Para la cena, opta por proteina magra
+      y verduras sin almidon para mantener la glucosa estable durante la noche.
+    </p>
+    <button type="button" class="btn btn-primary tip__btn">
+      Preguntarle mas a NutriBot
+    </button>
+  </section>
+</div>

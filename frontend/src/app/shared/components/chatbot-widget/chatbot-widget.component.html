@@ -1,0 +1,71 @@
+<!-- Botón flotante -->
+<button class="fab"
+        (click)="toggle()"
+        [class.fab--open]="isOpen"
+        aria-label="Abrir NutriBot">
+  <span class="material-icons fab__icon fab__icon--open">close</span>
+  <span class="fab__icon fab__icon--closed">🤖</span>
+  <span class="fab__badge" *ngIf="!isOpen">1</span>
+</button>
+
+<!-- Ventana del chat -->
+<div class="widget" [class.widget--open]="isOpen" role="dialog" aria-label="NutriBot">
+
+  <!-- Cabecera -->
+  <div class="widget__header">
+    <div class="widget__bot">
+      <div class="widget__avatar">🤖</div>
+      <div>
+        <p class="widget__name">NutriBot IA</p>
+        <p class="widget__status">
+          <span class="dot"></span> En línea
+        </p>
+      </div>
+    </div>
+    <button class="widget__close" (click)="toggle()" aria-label="Cerrar">
+      <span class="material-icons">close</span>
+    </button>
+  </div>
+
+  <!-- Mensajes -->
+  <div class="widget__messages" #msgArea>
+
+    <div *ngFor="let msg of messages"
+         class="msg fade-in"
+         [class.msg--user]="msg.role === 'user'"
+         [class.msg--bot]="msg.role === 'assistant'">
+      <div class="msg__bubble">{{ msg.content }}</div>
+    </div>
+
+    <!-- Typing -->
+    <div class="msg msg--bot" *ngIf="isTyping">
+      <div class="msg__bubble typing">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <!-- Quick replies -->
+    <div class="quick-replies" *ngIf="showQuickReplies">
+      <button *ngFor="let q of quickReplies"
+              class="quick-reply"
+              (click)="send(q)">{{ q }}</button>
+    </div>
+
+  </div>
+
+  <!-- Input -->
+  <div class="widget__input">
+    <input
+      class="widget__field"
+      [(ngModel)]="inputText"
+      (keydown)="onKey($event)"
+      placeholder="Escribe aquí..."
+      [disabled]="isTyping">
+    <button class="widget__send"
+            (click)="send()"
+            [disabled]="!inputText.trim() || isTyping">
+      <span class="material-icons">send</span>
+    </button>
+  </div>
+
+</div>

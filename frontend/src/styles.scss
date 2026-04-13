@@ -1,0 +1,268 @@
+/* =============================================
+   NUTREX — Design System Global
+   Colores inspirados en nutrición y naturaleza
+   ============================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+/* ── Variables de color ── */
+:root {
+  /* Verdes — vida, salud, naturaleza */
+  --color-forest:      #2C3B0A;   /* verde bosque oscuro — navbar */
+  --color-leaf:        #4A6B1A;   /* verde hoja — botones primarios */
+  --color-sage:        #7A9E4E;   /* verde salvia — acentos */
+  --color-mint:        #B8D89A;   /* verde menta — fondos suaves */
+  --color-cream:       #F7F4ED;   /* crema — fondo principal */
+
+  /* Tierra — cálido, orgánico */
+  --color-earth:       #8B5E3C;   /* tierra — detalles cálidos */
+  --color-sand:        #D4B896;   /* arena — bordes suaves */
+  --color-wheat:       #F0E6D3;   /* trigo — tarjetas */
+
+  /* Semánticos */
+  --color-success:     #3D7A3D;
+  --color-warning:     #B07D2A;
+  --color-danger:      #8B2020;
+  --color-info:        #2A5A8B;
+
+  /* Tipografía */
+  --font-display:      'Playfair Display', serif;
+  --font-body:         'DM Sans', sans-serif;
+
+  /* Espaciado */
+  --radius-sm:         8px;
+  --radius-md:         14px;
+  --radius-lg:         20px;
+  --radius-xl:         32px;
+
+  /* Sombras */
+  --shadow-sm:  0 2px 8px rgba(44, 59, 10, 0.08);
+  --shadow-md:  0 4px 20px rgba(44, 59, 10, 0.12);
+  --shadow-lg:  0 8px 40px rgba(44, 59, 10, 0.16);
+}
+
+/* ── Reset base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family:      var(--font-body);
+  background-color: var(--color-cream);
+  color:            var(--color-forest);
+  line-height:      1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Tipografía ── */
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-forest);
+}
+
+h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
+h2 { font-size: clamp(1.5rem, 3vw, 2.5rem); }
+h3 { font-size: clamp(1.2rem, 2vw, 1.8rem); }
+
+p  { font-size: 1rem; color: var(--color-forest); opacity: 0.85; }
+
+/* ── Botones ── */
+.btn {
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  gap:             8px;
+  padding:         12px 24px;
+  border-radius:   var(--radius-xl);
+  font-family:     var(--font-body);
+  font-size:       0.95rem;
+  font-weight:     500;
+  cursor:          pointer;
+  border:          none;
+  transition:      all 0.25s ease;
+  text-decoration: none;
+
+  &-primary {
+    background: var(--color-leaf);
+    color:      white;
+    &:hover     { background: var(--color-forest); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+    &:active    { transform: translateY(0); }
+  }
+
+  &-outline {
+    background:   transparent;
+    border:       2px solid var(--color-leaf);
+    color:        var(--color-leaf);
+    &:hover       { background: var(--color-leaf); color: white; }
+  }
+
+  &-ghost {
+    background: var(--color-mint);
+    color:      var(--color-forest);
+    &:hover     { background: var(--color-sage); color: white; }
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor:  not-allowed;
+    transform: none !important;
+  }
+}
+
+/* ── Tarjetas ── */
+.card {
+  background:    var(--color-wheat);
+  border-radius: var(--radius-lg);
+  padding:       1.5rem;
+  box-shadow:    var(--shadow-sm);
+  border:        1px solid rgba(212, 184, 150, 0.4);
+  transition:    box-shadow 0.2s, transform 0.2s;
+
+  &:hover { box-shadow: var(--shadow-md); }
+
+  &--white {
+    background: white;
+    border:     1px solid rgba(44, 59, 10, 0.08);
+  }
+  &--green {
+    background: var(--color-mint);
+    border:     1px solid var(--color-sage);
+  }
+}
+
+/* ── Inputs ── */
+.input {
+  width:         100%;
+  padding:       14px 18px;
+  border:        1.5px solid var(--color-sand);
+  border-radius: var(--radius-md);
+  font-family:   var(--font-body);
+  font-size:     1rem;
+  background:    white;
+  color:         var(--color-forest);
+  transition:    border-color 0.2s, box-shadow 0.2s;
+  outline:       none;
+
+  &:focus {
+    border-color: var(--color-sage);
+    box-shadow:   0 0 0 3px rgba(122, 158, 78, 0.15);
+  }
+
+  &::placeholder { color: var(--color-sand); }
+
+  &--error {
+    border-color: var(--color-danger);
+    &:focus { box-shadow: 0 0 0 3px rgba(139, 32, 32, 0.15); }
+  }
+}
+
+/* ── Badges / Tags ── */
+.badge {
+  display:       inline-flex;
+  align-items:   center;
+  gap:           4px;
+  padding:       4px 12px;
+  border-radius: var(--radius-xl);
+  font-size:     0.78rem;
+  font-weight:   500;
+
+  &--green   { background: var(--color-mint); color: var(--color-forest);  }
+  &--warning { background: #FFF3CD;            color: var(--color-warning); }
+  &--danger  { background: #FCE8E8;            color: var(--color-danger);  }
+  &--info    { background: #E8F1FC;            color: var(--color-info);    }
+}
+
+/* ── Barra de progreso ── */
+.progress {
+  height:        10px;
+  border-radius: var(--radius-xl);
+  background:    var(--color-mint);
+  overflow:      hidden;
+
+  &__fill {
+    height:        100%;
+    border-radius: var(--radius-xl);
+    background:    var(--color-leaf);
+    transition:    width 0.6s ease;
+
+    &--warning { background: var(--color-warning); }
+    &--danger  { background: var(--color-danger);  }
+  }
+}
+
+/* ── Contenedor responsive ── */
+.container {
+  width:      100%;
+  max-width:  1200px;
+  margin:     0 auto;
+  padding:    0 1.5rem;
+}
+
+/* ── Grid responsive ── */
+.grid {
+  display: grid;
+  gap:     1.5rem;
+
+  &--2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  &--3 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  &--4 { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+}
+
+/* ── Accesibilidad — filtros de visión ── */
+.vision-deuteranopia { filter: url(#deuteranopia); }
+.vision-protanopia   { filter: url(#protanopia);   }
+.vision-tritanopia   { filter: url(#tritanopia);   }
+.high-contrast       { filter: contrast(1.6) saturate(0.1); }
+.font-large          { font-size: 1.125rem !important; }
+.font-xlarge         { font-size: 1.25rem  !important; }
+
+/* ── SVG Filtros daltonismo (oculto) ── */
+.vision-filters {
+  position: absolute;
+  width:    0;
+  height:   0;
+  overflow: hidden;
+}
+
+/* ── Utilidades ── */
+.text-center { text-align: center; }
+.text-muted  { opacity: 0.6; }
+.mt-1  { margin-top:    0.5rem; }
+.mt-2  { margin-top:    1rem;   }
+.mt-3  { margin-top:    1.5rem; }
+.mb-1  { margin-bottom: 0.5rem; }
+.mb-2  { margin-bottom: 1rem;   }
+.mb-3  { margin-bottom: 1.5rem; }
+.p-2   { padding: 1rem;   }
+.p-3   { padding: 1.5rem; }
+
+/* ── Scrollbar personalizada ── */
+::-webkit-scrollbar       { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-cream); }
+::-webkit-scrollbar-thumb { background: var(--color-sage); border-radius: 3px; }
+
+/* ── Animaciones ── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1);    }
+  50%       { transform: scale(1.04); }
+}
+
+.fade-in   { animation: fadeIn 0.4s ease forwards; }
+.pulse     { animation: pulse 2s ease infinite;     }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .container { padding: 0 1rem; }
+  .hide-mobile { display: none !important; }
+}
