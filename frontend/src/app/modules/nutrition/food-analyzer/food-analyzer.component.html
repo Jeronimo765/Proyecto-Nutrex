@@ -1,0 +1,294 @@
+<div class="analyzer container">
+
+  <!-- Título -->
+  <header class="analyzer__header fade-in">
+    <h1>Analizar alimento</h1>
+    <p class="text-muted">
+      Sube una foto o describe lo que comiste y la IA calcula
+      los valores nutricionales al instante
+    </p>
+  </header>
+
+  <!-- Tabs foto / texto -->
+  <div class="tabs fade-in">
+    <button class="tab"
+            [class.tab--active]="activeTab === 'photo'"
+            (click)="activeTab = 'photo'; reset()">
+      <span class="material-icons">photo_camera</span>
+      Foto
+    </button>
+    <button class="tab"
+            [class.tab--active]="activeTab === 'text'"
+            (click)="activeTab = 'text'; reset()">
+      <span class="material-icons">edit_note</span>
+      Texto
+    </button>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       ESTADO: IDLE — zona de carga
+  ══════════════════════════════════════════ -->
+  <div *ngIf="state === 'idle'">
+
+    <!-- Tab Foto -->
+    <div *ngIf="activeTab === 'photo'"
+         class="drop-zone fade-in"
+         [class.drop-zone--dragging]="isDragging"
+         (dragover)="onDragOver($event)"
+         (dragleave)="onDragLeave()"
+         (drop)="onDrop($event)"
+         (click)="triggerFileInput()">
+
+      <input #fileInput type="file"
+             accept="image/*"
+             style="display:none"
+             (change)="onFileSelected($event)">
+
+      <div class="drop-zone__icon">📷</div>
+      <p class="drop-zone__title">Arrastra tu foto aquí</p>
+      <p class="drop-zone__sub">o toca para seleccionar desde tu galería</p>
+      <span class="btn btn-primary drop-zone__btn">
+        <span class="material-icons">upload</span>
+        Subir imagen
+      </span>
+      <p class="drop-zone__formats">JPG, PNG, WEBP · máx 10MB</p>
+
+    </div>
+
+    <!-- Tab Texto -->
+    <div *ngIf="activeTab === 'text'" class="text-analyzer fade-in">
+      <div class="form-group">
+        <label class="form-label">Describe tu comida</label>
+        <textarea
+          class="input text-area"
+          [(ngModel)]="textQuery"
+          placeholder="Ej: un plato de arroz blanco con pechuga de pollo a la plancha y ensalada..."
+          rows="4">
+        </textarea>
+      </div>
+
+      <!-- Ejemplos rápidos -->
+      <div class="examples">
+        <p class="examples__label">Ejemplos rápidos:</p>
+        <div class="examples__grid">
+          <button *ngFor="let ex of ['Avena con fruta', 'Pollo con arroz',
+                                     'Ensalada César', 'Salmón al horno',
+                                     'Arepa con huevo', 'Yogur con granola']"
+                  class="example-pill"
+                  (click)="textQuery = ex">
+            {{ ex }}
+          </button>
+        </div>
+      </div>
+
+      <button class="btn btn-primary analyze-btn"
+              [disabled]="!textQuery.trim()"
+              (click)="analyzeText()">
+        <span class="material-icons">auto_awesome</span>
+        Analizar con IA
+      </button>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       ESTADO: PREVIEW — muestra la imagen antes de analizar
+  ══════════════════════════════════════════ -->
+  <div *ngIf="state === 'preview'" class="preview fade-in">
+
+    <div class="preview__image-wrap">
+      <img [src]="previewUrl" alt="Foto del alimento" class="preview__img">
+      <button class="preview__remove" (click)="reset()" aria-label="Quitar foto">
+        <span class="material-icons">close</span>
+      </button>
+    </div>
+
+    <p class="preview__name">{{ selectedFile?.name }}</p>
+
+    <div class="preview__actions">
+      <button class="btn btn-outline" (click)="reset()">
+        <span class="material-icons">refresh</span>
+        Cambiar foto
+      </button>
+      <button class="btn btn-primary" (click)="analyzePhoto()">
+        <span class="material-icons">auto_awesome</span>
+        Analizar con IA
+      </button>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       ESTADO: ANALYZING — cargando
+  ══════════════════════════════════════════ -->
+  <div *ngIf="state === 'analyzing'" class="analyzing fade-in">
+    <div class="analyzing__spinner">
+      <div class="spinner"></div>
+    </div>
+    <p class="analyzing__title">Analizando con IA...</p>
+    <p class="analyzing__sub text-muted">
+      Calculando valores nutricionales y verificando
+      compatibilidad con tu condición médica
+    </p>
+    <div class="analyzing__steps">
+      <span>🔍 Detectando alimento</span>
+      <span>📊 Calculando macros</span>
+      <span>🩺 Verificando condición</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       ESTADO: RESULT — muestra el análisis
+  ══════════════════════════════════════════ -->
+  <div *ngIf="state === 'result' && analysis" class="result fade-in">
+
+    <!-- Imagen analizada (si fue por foto) -->
+    <div class="result__photo-wrap" *ngIf="previewUrl">
+      <img [src]="previewUrl" alt="Alimento analizado" class="result__photo">
+      <div class="result__overlay">
+        <span class="badge" [ngClass]="getSuitabilityClass()">
+          {{ getSuitabilityText() }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Nombre y estado -->
+    <div class="result__title-row">
+      <h2 class="result__name">{{ analysis.food_name }}</h2>
+      <span class="badge" [ngClass]="getSuitabilityClass()">
+        {{ getSuitabilityText() }}
+      </span>
+    </div>
+
+    <!-- Calorías destacadas -->
+    <div class="calories-card card card--white">
+      <div class="calories-card__value">
+        {{ analysis.calories | number:'1.0-0' }}
+        <span>kcal</span>
+      </div>
+      <p class="calories-card__label">por 100g de porción</p>
+      <div class="calories-card__gi" *ngIf="analysis.glycemic_index">
+        <span class="badge badge--info">
+          Índice glucémico: {{ analysis.glycemic_index }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Macronutrientes -->
+    <div class="macros card card--white">
+      <h3 class="macros__title">Macronutrientes</h3>
+
+      <div class="macro-row">
+        <div class="macro-row__info">
+          <span class="macro-row__icon">🌾</span>
+          <span class="macro-row__name">Carbohidratos</span>
+          <span class="macro-row__value">{{ analysis.carbs_g }}g</span>
+        </div>
+        <div class="progress">
+          <div class="progress__fill progress__fill--warning"
+               [style.width.%]="getProgressWidth(analysis.carbs_g, 60)">
+          </div>
+        </div>
+      </div>
+
+      <div class="macro-row">
+        <div class="macro-row__info">
+          <span class="macro-row__icon">🥩</span>
+          <span class="macro-row__name">Proteínas</span>
+          <span class="macro-row__value">{{ analysis.protein_g }}g</span>
+        </div>
+        <div class="progress">
+          <div class="progress__fill"
+               [style.width.%]="getProgressWidth(analysis.protein_g, 40)">
+          </div>
+        </div>
+      </div>
+
+      <div class="macro-row">
+        <div class="macro-row__info">
+          <span class="macro-row__icon">🥑</span>
+          <span class="macro-row__name">Grasas</span>
+          <span class="macro-row__value">{{ analysis.fats_g }}g</span>
+        </div>
+        <div class="progress">
+          <div class="progress__fill"
+               [style.width.%]="getProgressWidth(analysis.fats_g, 30)">
+          </div>
+        </div>
+      </div>
+
+      <div class="macro-row">
+        <div class="macro-row__info">
+          <span class="macro-row__icon">🥦</span>
+          <span class="macro-row__name">Fibra</span>
+          <span class="macro-row__value">{{ analysis.fiber_g }}g</span>
+        </div>
+        <div class="progress">
+          <div class="progress__fill"
+               [style.width.%]="getProgressWidth(analysis.fiber_g, 10)">
+          </div>
+        </div>
+      </div>
+
+      <div class="macro-row">
+        <div class="macro-row__info">
+          <span class="macro-row__icon">🧂</span>
+          <span class="macro-row__name">Sodio</span>
+          <span class="macro-row__value">{{ analysis.sodium_mg }}mg</span>
+        </div>
+        <div class="progress">
+          <div class="progress__fill"
+               [class.progress__fill--danger]="analysis.sodium_mg > 400"
+               [style.width.%]="getProgressWidth(analysis.sodium_mg, 600)">
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Recomendación de la IA -->
+    <div class="recommendation card"
+         [class.card--green]="analysis.is_suitable"
+         [class.recommendation--warning]="!analysis.is_suitable">
+      <div class="recommendation__header">
+        <span>🤖</span>
+        <strong>Recomendación NutriBot</strong>
+      </div>
+      <p>{{ analysis.recommendation }}</p>
+    </div>
+
+    <!-- Advertencias -->
+    <div class="warnings" *ngIf="analysis.warnings?.length">
+      <div class="warning-item" *ngFor="let w of analysis.warnings">
+        <span class="material-icons">warning_amber</span>
+        {{ w }}
+      </div>
+    </div>
+
+    <!-- Acciones -->
+    <div class="result__actions">
+      <button class="btn btn-outline" (click)="reset()">
+        <span class="material-icons">refresh</span>
+        Analizar otro
+      </button>
+      <button class="btn btn-primary" routerLink="/chat">
+        <span class="material-icons">smart_toy</span>
+        Preguntarle a NutriBot
+      </button>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       ESTADO: ERROR
+  ══════════════════════════════════════════ -->
+  <div *ngIf="state === 'error'" class="error-state fade-in">
+    <div class="error-state__icon">😕</div>
+    <p class="error-state__msg">{{ errorMsg }}</p>
+    <button class="btn btn-primary" (click)="reset()">
+      <span class="material-icons">refresh</span>
+      Intentar de nuevo
+    </button>
+  </div>
+
+</div>

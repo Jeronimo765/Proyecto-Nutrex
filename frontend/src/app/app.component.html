@@ -1,7 +1,7 @@
 <div class="landing-shell">
   <header class="topbar">
     <div class="container topbar__content">
-      <a class="brand" href="/">
+      <a class="brand" routerLink="/">
         <span class="brand__mark">N</span>
         <div class="brand__copy">
           <strong>Nutrex</strong>
@@ -10,14 +10,16 @@
       </a>
 
       <nav class="menu" aria-label="Principal">
-        @for (item of navItems; track item) {
-          <a href="/" class="menu__link">{{ item }}</a>
-        }
+        <a routerLink="/" class="menu__link">Inicio</a>
+        <a routerLink="/planes" class="menu__link">Planes</a>
+        <a routerLink="/recetas" class="menu__link">Recetas</a>
+        <a routerLink="/" class="menu__link">NutriBot</a>
+        <a routerLink="/" class="menu__link">Contacto</a>
       </nav>
 
       <div class="topbar__actions">
-        <a class="btn btn-ghost" href="/">Explorar</a>
-        <a class="btn btn-primary" href="/">Empieza hoy</a>
+        <a class="btn btn-ghost" routerLink="/planes">Explorar</a>
+        <a class="btn btn-primary" routerLink="/planes">Empieza hoy</a>
       </div>
     </div>
   </header>
@@ -32,8 +34,8 @@
           seguimiento y ayuda inteligente en cada comida.
         </p>
         <div class="hero-copy__actions">
-          <a class="btn btn-primary" href="/">Crear mi plan</a>
-          <a class="btn btn-outline" href="/">Hablar con NutriBot</a>
+          <a class="btn btn-primary" routerLink="/planes">Crear mi plan</a>
+          <a class="btn btn-outline" routerLink="/">Hablar con NutriBot</a>
         </div>
       </div>
 

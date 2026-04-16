@@ -1,0 +1,78 @@
+<section class="planes-hero">
+  <span class="badge">Planes nutricionales</span>
+  <h1>Alimentacion personalizada<br>segun tu condicion</h1>
+  <p>Selecciona tu condicion y accede a un plan semanal con una presentacion mas clara, natural y coherente con Nutrex.</p>
+</section>
+
+<section class="planes-grid">
+  <div
+    class="plan-card"
+    *ngFor="let plan of planes"
+    [class.activo]="planSeleccionado?.id === plan.id"
+    (click)="seleccionar(plan)">
+    <div class="plan-card__top">
+      <span class="plan-kicker">Plan nutricional</span>
+      <span class="plan-chip">{{ plan.id | titlecase }}</span>
+    </div>
+
+    <h3>{{ plan.condicion }}</h3>
+    <p>{{ plan.descripcion }}</p>
+
+    <div class="plan-summary">
+      <span class="plan-type">{{ plan.tipoPlan }}</span>
+      <strong>{{ plan.objetivo }}</strong>
+    </div>
+
+    <div class="plan-focus">
+      <h4>Enfoque del plan</h4>
+      <ul>
+        <li *ngFor="let item of plan.enfoque">{{ item }}</li>
+      </ul>
+    </div>
+
+    <span class="ver-plan">
+      {{ planSeleccionado?.id === plan.id ? 'Cerrar plan ↑' : 'Ver plan completo →' }}
+    </span>
+  </div>
+</section>
+
+<section class="plan-detalle" *ngIf="planSeleccionado">
+  <div class="detalle-header">
+    <span class="detalle-badge">Plan activo</span>
+    <h2>Plan para {{ planSeleccionado.condicion }}</h2>
+    <p>{{ planSeleccionado.descripcion }}</p>
+    <div class="detalle-resumen">
+      <span class="detalle-tipo">{{ planSeleccionado.tipoPlan }}</span>
+      <strong>{{ planSeleccionado.objetivo }}</strong>
+    </div>
+  </div>
+
+  <div class="detalle-body">
+    <div class="alimentos-cols">
+      <div class="alimentos-ok">
+        <h4>Alimentos recomendados</h4>
+        <ul>
+          <li *ngFor="let a of planSeleccionado.alimentos">{{ a }}</li>
+        </ul>
+      </div>
+
+      <div class="alimentos-no">
+        <h4>Evitar</h4>
+        <ul>
+          <li *ngFor="let e of planSeleccionado.evitar">{{ e }}</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="semanas-titulo">Plan semanal de 4 semanas</h3>
+
+    <div class="semanas-grid">
+      <div class="semana-card" *ngFor="let s of planSeleccionado.semanas">
+        <div class="semana-num">Semana {{ s.semana }}</div>
+        <div class="comida"><span>Desayuno</span><p>{{ s.desayuno }}</p></div>
+        <div class="comida"><span>Almuerzo</span><p>{{ s.almuerzo }}</p></div>
+        <div class="comida"><span>Cena</span><p>{{ s.cena }}</p></div>
+      </div>
+    </div>
+  </div>
+</section>

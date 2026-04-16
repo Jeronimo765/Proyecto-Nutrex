@@ -1,0 +1,88 @@
+<div class="recetas-shell">
+  <div class="recetas-sidebar">
+    <div class="sidebar-header">
+      <h2>Recetas</h2>
+      <p>Filtrar por condicion</p>
+    </div>
+
+    <ul class="sidebar-filtros">
+      <li
+        *ngFor="let f of filtros"
+        [class.activo]="filtroActivo === f.key"
+        (click)="filtroActivo = f.key">
+        {{ f.label }}
+        <span class="count">{{ contarPorFiltro(f.key) }}</span>
+      </li>
+    </ul>
+
+    <div class="sidebar-tip">
+      <strong>Tip NutriBot</strong>
+      <p>Las recetas estan pensadas para ayudarte a comer mejor segun tu condicion y tus objetivos.</p>
+    </div>
+  </div>
+
+  <div class="recetas-main">
+    <div class="main-topbar">
+      <h3>{{ filtroActivo === 'todas' ? 'Todas las recetas' : 'Recetas para ' + tituloFiltroActivo }}</h3>
+      <span class="result-count">{{ recetasFiltradas.length }} recetas</span>
+    </div>
+
+    <div class="recetas-grid">
+      <div class="receta-card" *ngFor="let r of recetasFiltradas" (click)="abrirReceta(r)">
+        <div class="receta-img">
+          <img [src]="r.imagen" [alt]="r.nombre">
+          <span class="receta-categoria">{{ r.categoria }}</span>
+        </div>
+
+        <div class="receta-info">
+          <h4>{{ r.nombre }}</h4>
+
+          <div class="receta-meta">
+            <span>{{ r.tiempo }}</span>
+            <span>{{ r.calorias }} kcal</span>
+            <span>{{ r.dificultad }}</span>
+          </div>
+
+          <div class="receta-tags">
+            <span class="tag" *ngFor="let c of r.condicion">{{ c }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="recetaSeleccionada" (click)="cerrarReceta()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <button class="modal-close" (click)="cerrarReceta()">×</button>
+    <img [src]="recetaSeleccionada.imagen" [alt]="recetaSeleccionada.nombre">
+
+    <div class="modal-body">
+      <span class="receta-categoria">{{ recetaSeleccionada.categoria }}</span>
+      <h2>{{ recetaSeleccionada.nombre }}</h2>
+
+      <div class="modal-macros">
+        <div class="macro"><strong>{{ recetaSeleccionada.macros.proteinas }}g</strong><span>Proteinas</span></div>
+        <div class="macro"><strong>{{ recetaSeleccionada.macros.carbos }}g</strong><span>Carbos</span></div>
+        <div class="macro"><strong>{{ recetaSeleccionada.macros.grasas }}g</strong><span>Grasas</span></div>
+        <div class="macro"><strong>{{ recetaSeleccionada.calorias }}</strong><span>kcal</span></div>
+      </div>
+
+      <div class="modal-cols">
+        <div>
+          <h4>Ingredientes</h4>
+          <ul>
+            <li *ngFor="let i of recetaSeleccionada.ingredientes">{{ i }}</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Preparacion</h4>
+          <ol>
+            <li *ngFor="let p of recetaSeleccionada.pasos">{{ p }}</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

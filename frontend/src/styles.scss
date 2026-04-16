@@ -3,7 +3,7 @@
    Colores inspirados en nutrición y naturaleza
    ============================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 /* ── Variables de color ── */
@@ -27,8 +27,8 @@
   --color-info:        #2A5A8B;
 
   /* Tipografía */
-  --font-display:      'Playfair Display', serif;
-  --font-body:         'DM Sans', sans-serif;
+  --font-display:      'Roboto', sans-serif;
+  --font-body:         'Raleway', sans-serif;
 
   /* Espaciado */
   --radius-sm:         8px;
@@ -59,9 +59,12 @@ body {
 }
 
 /* ── Tipografía ── */
-h1, h2, h3 {
+h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   font-weight: 700;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings: 'wdth' 100;
   line-height: 1.2;
   color: var(--color-forest);
 }
