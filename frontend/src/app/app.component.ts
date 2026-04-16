@@ -1,4 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { AuthService } from './core/services/auth.service';
 
 interface CarouselSlide {
   image: string;
@@ -49,6 +52,11 @@ export class AppComponent implements OnInit, OnDestroy {
   currentSlide = 0;
   private carouselIntervalId: ReturnType<typeof setInterval> | null = null;
 
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
   ngOnInit(): void {
     this.startCarousel();
   }
@@ -86,5 +94,14 @@ export class AppComponent implements OnInit, OnDestroy {
       clearInterval(this.carouselIntervalId);
       this.carouselIntervalId = null;
     }
+  }
+
+  get isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigateByUrl('/auth/login');
   }
 }

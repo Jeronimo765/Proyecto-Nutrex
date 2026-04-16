@@ -19,7 +19,10 @@
 
       <div class="topbar__actions">
         <a class="btn btn-ghost" routerLink="/planes">Explorar</a>
-        <a class="btn btn-primary" routerLink="/planes">Empieza hoy</a>
+        <a *ngIf="!isLoggedIn" class="btn btn-outline" routerLink="/auth/login">Ingresar</a>
+        <a *ngIf="!isLoggedIn" class="btn btn-primary" routerLink="/auth/register">Registrate</a>
+        <a *ngIf="isLoggedIn" class="btn btn-primary" routerLink="/dashboard">Mi panel</a>
+        <button *ngIf="isLoggedIn" type="button" class="btn btn-outline" (click)="logout()">Cerrar sesion</button>
       </div>
     </div>
   </header>

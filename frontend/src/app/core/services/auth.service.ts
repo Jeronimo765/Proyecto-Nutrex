@@ -9,6 +9,14 @@ export interface LoginRequest {
   password: string;
 }
 
+export interface RegisterRequest {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  phone?: string;
+}
+
 export interface AuthResponse {
   token: string;
   refreshToken?: string;
@@ -32,6 +40,12 @@ export class AuthService {
 
   login(payload: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.baseUrl}/login`, payload).pipe(
+      tap((response) => this.persistSession(response))
+    );
+  }
+
+  register(payload: RegisterRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.baseUrl}/register`, payload).pipe(
       tap((response) => this.persistSession(response))
     );
   }

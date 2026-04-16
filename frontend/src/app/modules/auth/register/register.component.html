@@ -1,1 +1,112 @@
-<p>register works!</p>
+<div class="auth-page">
+  <div class="auth-card fade-in">
+    <div class="auth-card__logo">
+      <span class="auth-card__icon">N</span>
+      <h1 class="auth-card__brand">Crea tu cuenta</h1>
+      <p class="auth-card__tagline">Registrate para guardar tu sesion y entrar a tu panel personal</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <div class="auth-grid">
+        <div class="form-group">
+          <label class="form-label" for="firstName">Nombre</label>
+          <input
+            id="firstName"
+            class="input auth-input"
+            [class.input--error]="firstName.invalid && firstName.touched"
+            formControlName="firstName"
+            type="text"
+            placeholder="Tu nombre"
+            autocomplete="given-name">
+          <span class="form-error" *ngIf="firstName.invalid && firstName.touched">
+            Ingresa tu nombre
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="lastName">Apellido</label>
+          <input
+            id="lastName"
+            class="input auth-input"
+            [class.input--error]="lastName.invalid && lastName.touched"
+            formControlName="lastName"
+            type="text"
+            placeholder="Tu apellido"
+            autocomplete="family-name">
+          <span class="form-error" *ngIf="lastName.invalid && lastName.touched">
+            Ingresa tu apellido
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="email">Correo electronico</label>
+        <div class="input-wrapper">
+          <span class="input-icon">email</span>
+          <input
+            id="email"
+            class="input"
+            [class.input--error]="email.invalid && email.touched"
+            formControlName="email"
+            type="email"
+            placeholder="tu@correo.com"
+            autocomplete="email">
+        </div>
+        <span class="form-error" *ngIf="email.invalid && email.touched">
+          Ingresa un correo valido
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="phone">Telefono</label>
+        <input
+          id="phone"
+          class="input auth-input"
+          formControlName="phone"
+          type="tel"
+          placeholder="Opcional"
+          autocomplete="tel">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="password">Contrasena</label>
+        <div class="input-wrapper">
+          <span class="input-icon">lock</span>
+          <input
+            id="password"
+            class="input"
+            [class.input--error]="password.invalid && password.touched"
+            formControlName="password"
+            [type]="showPass ? 'text' : 'password'"
+            placeholder="Minimo 8 caracteres"
+            autocomplete="new-password">
+          <button
+            type="button"
+            class="input-toggle"
+            (click)="showPass = !showPass"
+            [attr.aria-label]="showPass ? 'Ocultar' : 'Mostrar'">
+            {{ showPass ? 'Ocultar' : 'Mostrar' }}
+          </button>
+        </div>
+        <span class="form-error" *ngIf="password.invalid && password.touched">
+          La contrasena debe tener minimo 8 caracteres
+        </span>
+      </div>
+
+      <div class="form-alert" *ngIf="errorMsg" role="alert">
+        <strong>Error:</strong>
+        <span>{{ errorMsg }}</span>
+      </div>
+
+      <button type="submit" class="btn btn-primary auth-btn" [disabled]="loading">
+        <span *ngIf="!loading">Crear cuenta</span>
+        <span *ngIf="loading">Registrando...</span>
+      </button>
+    </form>
+
+    <p class="auth-card__footer">
+      Ya tienes cuenta?
+      <a routerLink="/auth/login" class="auth-link">Inicia sesion</a>
+    </p>
+  </div>
+</div>

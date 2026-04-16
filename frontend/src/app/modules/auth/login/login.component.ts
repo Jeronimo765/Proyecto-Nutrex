@@ -41,7 +41,7 @@ export class LoginComponent {
         this.router.navigateByUrl(returnUrl);
       },
       error: (err) => {
-        this.errorMsg = err.error?.message || 'Error al iniciar sesion';
+        this.errorMsg = this.resolveErrorMessage(err, 'Error al iniciar sesion');
         this.loading = false;
       }
     });
@@ -53,5 +53,13 @@ export class LoginComponent {
 
   get password() {
     return this.form.controls.password;
+  }
+
+  private resolveErrorMessage(err: { status?: number; error?: { message?: string } }, fallback: string): string {
+    if (err.status === 0) {
+      return 'No hay conexion con el servidor de autenticacion. Verifica que el backend este corriendo en http://localhost:8081';
+    }
+
+    return err.error?.message || fallback;
   }
 }

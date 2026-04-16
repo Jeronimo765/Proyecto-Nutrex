@@ -4,10 +4,12 @@ import com.nutrex.userservice.dto.AuthResponse;
 import com.nutrex.userservice.dto.LoginRequest;
 import com.nutrex.userservice.dto.RegisterRequest;
 import com.nutrex.userservice.entity.User;
+import com.nutrex.userservice.exception.AuthException;
 import com.nutrex.userservice.repository.UserRepository;
 import com.nutrex.userservice.security.JwtUtil;
 import com.nutrex.userservice.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,10 +24,10 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthResponse login(LoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
-            .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+            .orElseThrow(() -> new AuthException(HttpStatus.NOT_FOUND, "El correo no esta registrado"));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
-            throw new RuntimeException("Contrasena incorrecta");
+            throw new AuthException(HttpStatus.UNAUTHORIZED, "La contrasena es incorrecta");
         }
 
         String token = jwtUtil.generateToken(user.getEmail());
@@ -43,7 +45,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("El email ya esta registrado");
+            throw new AuthException(HttpStatus.CONFLICT, "El correo ya esta registrado");
         }
 
         User user = User.builder()
