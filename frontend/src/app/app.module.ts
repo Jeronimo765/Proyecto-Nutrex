@@ -9,11 +9,13 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { ChatbotWidgetComponent } from './shared/components/chatbot-widget/chatbot-widget.component';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { ContactoComponent } from './pages/contacto/contacto.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ChatbotWidgetComponent
+    ChatbotWidgetComponent,
+    ContactoComponent
   ],
   imports: [
     BrowserModule,

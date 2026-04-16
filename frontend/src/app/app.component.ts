@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 
 import { AuthService } from './core/services/auth.service';
 
@@ -50,6 +51,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ];
 
   currentSlide = 0;
+  isHomeRoute = true;
   private carouselIntervalId: ReturnType<typeof setInterval> | null = null;
 
   constructor(
@@ -58,6 +60,11 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.updateLayoutForRoute(this.router.url);
+    this.router.events
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe((event) => this.updateLayoutForRoute(event.urlAfterRedirects));
+
     this.startCarousel();
   }
 
@@ -94,6 +101,17 @@ export class AppComponent implements OnInit, OnDestroy {
       clearInterval(this.carouselIntervalId);
       this.carouselIntervalId = null;
     }
+  }
+
+  private updateLayoutForRoute(url: string): void {
+    this.isHomeRoute = url === '/' || url === '';
+
+    if (this.isHomeRoute) {
+      this.startCarousel();
+      return;
+    }
+
+    this.clearCarousel();
   }
 
   get isLoggedIn(): boolean {

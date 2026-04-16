@@ -13,8 +13,8 @@
         <a routerLink="/" class="menu__link">Inicio</a>
         <a routerLink="/planes" class="menu__link">Planes</a>
         <a routerLink="/recetas" class="menu__link">Recetas</a>
-        <a routerLink="/" class="menu__link">NutriBot</a>
-        <a routerLink="/" class="menu__link">Contacto</a>
+        <a routerLink="/chat" class="menu__link">NutriBot</a>
+        <a routerLink="/contacto" routerLinkActive="active" class="menu__link">Contacto</a>
       </nav>
 
       <div class="topbar__actions">
@@ -27,7 +27,7 @@
     </div>
   </header>
 
-  <section class="hero-carousel">
+  <section class="hero-carousel" *ngIf="isHomeRoute">
     <div class="container hero-carousel__content">
       <div class="hero-copy fade-in">
         <span class="hero-copy__eyebrow">Bienestar diario con Nutrex</span>
@@ -38,7 +38,7 @@
         </p>
         <div class="hero-copy__actions">
           <a class="btn btn-primary" routerLink="/planes">Crear mi plan</a>
-          <a class="btn btn-outline" routerLink="/">Hablar con NutriBot</a>
+          <a class="btn btn-outline" routerLink="/chat">Hablar con NutriBot</a>
         </div>
       </div>
 
@@ -87,6 +87,6 @@
     </div>
   </section>
 
-  <router-outlet />
-  <app-chatbot-widget></app-chatbot-widget>
+  <router-outlet></router-outlet>
+  <app-chatbot-widget *ngIf="isHomeRoute"></app-chatbot-widget>
 </div>

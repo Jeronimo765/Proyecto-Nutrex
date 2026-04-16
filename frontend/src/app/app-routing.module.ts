@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from './core/guards/auth.guard';
+import { ContactoComponent } from './pages/contacto/contacto.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,15 @@ const routes: Routes = [
     path: 'auth',
     loadChildren: () =>
       import('./modules/auth/auth.module').then(m => m.AuthModule)
+  },
+  {
+    path: 'chat',
+    loadChildren: () =>
+      import('./modules/chat/chat.module').then(m => m.ChatModule)
+  },
+  {
+    path: 'contacto',
+    component: ContactoComponent
   },
   {
     path: '**',

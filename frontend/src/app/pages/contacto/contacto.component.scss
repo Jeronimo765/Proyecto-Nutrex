@@ -1,0 +1,458 @@
+$verde-profundo: #43533f;
+$verde-salvia: #72866d;
+$verde-claro: #cfd8c8;
+$crema: #f6f1e8;
+$crema-oscuro: #e7dfd2;
+$marfil: #fcfaf6;
+$texto: #2f342d;
+$texto-suave: #6d7268;
+$blanco: #ffffff;
+$sombra: 0 10px 30px rgba(68, 57, 39, 0.06);
+$radio: 18px;
+
+.contacto-page {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0)),
+    $crema;
+  min-height: 100vh;
+  padding: 56px 32px 72px;
+  font-family: Georgia, 'Times New Roman', serif;
+  color: $texto;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.contacto-hero {
+  margin-bottom: 36px;
+
+  .badge {
+    background: transparent;
+    color: $verde-salvia;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0;
+    border-radius: 0;
+    display: inline-block;
+    margin-bottom: 14px;
+  }
+
+  h1 {
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    color: $texto;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 14px;
+    max-width: 620px;
+
+    strong {
+      color: $verde-profundo;
+      font-weight: 600;
+    }
+  }
+
+  p {
+    color: $texto-suave;
+    font-size: 1.02rem;
+    line-height: 1.75;
+    max-width: 560px;
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+  }
+}
+
+.nutribot-banner {
+  background: rgba(252, 250, 246, 0.85);
+  border: 1px solid rgba(114, 134, 109, 0.16);
+  border-radius: $radio;
+  padding: 22px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 42px;
+  gap: 18px;
+  flex-wrap: wrap;
+  box-shadow: $sombra;
+
+  .nutribot-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: $texto;
+
+    .nutribot-avatar {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: $verde-profundo;
+      background: $crema;
+      border: 1px solid rgba(114, 134, 109, 0.22);
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      margin: 0 0 6px;
+      color: $texto;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    p {
+      font-size: 0.92rem;
+      line-height: 1.6;
+      margin: 0;
+      color: $texto-suave;
+      font-family: 'Segoe UI', sans-serif;
+    }
+  }
+
+  .btn-nutribot {
+    background: transparent;
+    color: $verde-profundo;
+    font-weight: 600;
+    font-size: 0.92rem;
+    border: 1px solid rgba(67, 83, 63, 0.28);
+    border-radius: 999px;
+    padding: 11px 20px;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    white-space: nowrap;
+    text-decoration: none;
+    font-family: 'Segoe UI', sans-serif;
+
+    &:hover {
+      background: rgba(114, 134, 109, 0.08);
+      border-color: rgba(67, 83, 63, 0.42);
+    }
+  }
+}
+
+.contacto-grid {
+  display: grid;
+  grid-template-columns: 0.95fr 1.15fr;
+  gap: 32px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.faq-section,
+.form-section {
+  background: rgba(252, 250, 246, 0.88);
+  border: 1px solid rgba(114, 134, 109, 0.12);
+  border-radius: 22px;
+  padding: 28px;
+  box-shadow: $sombra;
+
+  h2 {
+    font-size: 1.35rem;
+    color: $texto;
+    margin: 0 0 22px;
+    font-family: 'Segoe UI', sans-serif;
+  }
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.faq-item {
+  background: $blanco;
+  border: 1px solid rgba(114, 134, 109, 0.12);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.faq-question {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 18px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: $texto;
+  text-align: left;
+  gap: 12px;
+  font-family: 'Segoe UI', sans-serif;
+
+  .faq-icon {
+    font-size: 1.1rem;
+    color: $verde-salvia;
+    flex-shrink: 0;
+  }
+
+  &.open {
+    background: rgba(207, 216, 200, 0.28);
+  }
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.28s ease, padding 0.28s ease;
+  padding: 0 18px;
+
+  &.visible {
+    max-height: 220px;
+    padding: 0 18px 16px;
+  }
+
+  p {
+    font-size: 0.92rem;
+    color: $texto-suave;
+    margin: 0;
+    line-height: 1.7;
+    font-family: 'Segoe UI', sans-serif;
+  }
+}
+
+.horario-card {
+  background: $blanco;
+  border-radius: 16px;
+  padding: 22px;
+  border: 1px solid rgba(114, 134, 109, 0.12);
+
+  h3 {
+    font-size: 0.98rem;
+    color: $texto;
+    margin: 0 0 14px;
+    font-family: 'Segoe UI', sans-serif;
+  }
+}
+
+.horario-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.horario-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 0.9rem;
+  padding-bottom: 10px;
+  border-bottom: 1px solid $crema-oscuro;
+  font-family: 'Segoe UI', sans-serif;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .dia {
+    color: $texto-suave;
+  }
+
+  .hora {
+    font-weight: 600;
+    color: $verde-profundo;
+  }
+}
+
+.nutribot-note {
+  background: rgba(207, 216, 200, 0.24);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 0.84rem;
+  color: $texto-suave;
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+
+  strong {
+    color: $verde-profundo;
+  }
+}
+
+.motivos-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 24px;
+
+  @media (max-width: 520px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.motivo-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 15px;
+  border-radius: 15px;
+  border: 1px solid rgba(114, 134, 109, 0.14);
+  background: $blanco;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: $texto;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  font-family: 'Segoe UI', sans-serif;
+
+  .motivo-icon {
+    font-size: 0.76rem;
+    letter-spacing: 0.04em;
+    color: $verde-salvia;
+    text-transform: uppercase;
+  }
+
+  &:hover {
+    border-color: rgba(114, 134, 109, 0.3);
+    background: rgba(246, 241, 232, 0.7);
+  }
+
+  &.selected {
+    border-color: rgba(67, 83, 63, 0.34);
+    background: rgba(207, 216, 200, 0.3);
+    color: $verde-profundo;
+  }
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 16px;
+
+  label {
+    font-size: 0.87rem;
+    font-weight: 600;
+    color: $texto;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  input,
+  textarea {
+    border: 1px solid rgba(114, 134, 109, 0.18);
+    border-radius: 14px;
+    padding: 13px 15px;
+    font-size: 0.95rem;
+    font-family: 'Segoe UI', sans-serif;
+    background: $blanco;
+    color: $texto;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    resize: none;
+    outline: none;
+
+    &:focus {
+      border-color: rgba(67, 83, 63, 0.38);
+      box-shadow: 0 0 0 4px rgba(114, 134, 109, 0.08);
+    }
+
+    &::placeholder {
+      color: #9b9f96;
+    }
+  }
+}
+
+.btn-enviar {
+  width: 100%;
+  padding: 14px;
+  background: $verde-profundo;
+  color: $blanco;
+  font-size: 0.96rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease, opacity 0.2s ease;
+  font-family: 'Segoe UI', sans-serif;
+
+  &:hover:not(:disabled) {
+    background: #54674f;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.form-helper {
+  margin-top: 12px;
+  color: $texto-suave;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.form-success {
+  margin-top: 16px;
+  background: rgba(207, 216, 200, 0.38);
+  color: $verde-profundo;
+  border: 1px solid rgba(114, 134, 109, 0.16);
+  border-radius: 14px;
+  padding: 14px 18px;
+  font-weight: 600;
+  font-size: 0.93rem;
+  text-align: center;
+  animation: fadeIn 0.25s ease;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.form-error {
+  margin-top: 16px;
+  background: rgba(150, 74, 57, 0.08);
+  color: #8a4a3e;
+  border: 1px solid rgba(150, 74, 57, 0.16);
+  border-radius: 14px;
+  padding: 14px 18px;
+  font-weight: 600;
+  font-size: 0.93rem;
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .contacto-page {
+    padding: 42px 18px 56px;
+  }
+
+  .faq-section,
+  .form-section {
+    padding: 22px 18px;
+  }
+
+  .nutribot-banner {
+    padding: 18px;
+  }
+}
