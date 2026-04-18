@@ -28,7 +28,7 @@ spring:
         - id: plan-service-api
           uri: ${services.plan-service.url}
           predicates:
-            - Path=/api/plans/**
+            - Path=/api/plans,/api/plans/**
         - id: ai-service-routes
           uri: ${services.ai-service.url}
           predicates:

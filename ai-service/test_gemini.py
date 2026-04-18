@@ -1,25 +1,20 @@
-from google import genai
 import os
-from dotenv import load_dotenv
 
-# Cargar variables del .env
+from dotenv import load_dotenv
+from google import genai
+
 load_dotenv()
 
 api_key = os.getenv("GEMINI_API_KEY")
-print("API KEY:", api_key)
-
-# Crear cliente
 client = genai.Client(api_key=api_key)
 
 try:
     response = client.models.generate_content(
-        model="gemini-2.0-flash",
-        contents="Hola, dime si estás funcionando correctamente"
+        model="gemini-2.5-flash",
+        contents="Hola, dime si estas funcionando correctamente para Nutrex."
     )
-
-    print("\n✅ RESPUESTA:")
+    print("\nRESPUESTA:")
     print(response.text)
-
 except Exception as e:
-    print("\n❌ ERROR:")
+    print("\nERROR:")
     print(e)

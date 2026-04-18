@@ -16,6 +16,8 @@ class RecipeRequest(BaseModel):
 class ChatRequest(BaseModel):
     mensaje: str
     historial: Optional[List[dict]] = []
+    user_conditions: Optional[List[str]] = []
+    user_name: Optional[str] = ""
 
 # --- Modelos de Respuesta (Responses) ---
 

@@ -33,7 +33,7 @@
           <p>{{ msg.content }}</p>
           <span class="msg-time">{{ msg.timestamp | date:'HH:mm' }}</span>
         </div>
-        <div class="msg-avatar msg-avatar--user" *ngIf="msg.role === 'user'">{{ userName[0] }}</div>
+        <div class="msg-avatar msg-avatar--user" *ngIf="msg.role === 'user'">{{ (userName || 'U')[0] }}</div>
       </div>
 
       <div class="message message--bot fade-in" *ngIf="isTyping">

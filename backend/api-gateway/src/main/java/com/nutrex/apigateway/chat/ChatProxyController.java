@@ -31,7 +31,9 @@ public class ChatProxyController {
     public Mono<FrontendChatResponse> sendMessage(@Valid @RequestBody FrontendChatRequest request) {
         AiChatRequest aiRequest = new AiChatRequest(
             request.message(),
-            toAiHistory(request.history())
+            toAiHistory(request.history()),
+            request.user_conditions(),
+            request.user_name()
         );
 
         return aiServiceWebClient

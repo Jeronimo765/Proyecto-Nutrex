@@ -4,6 +4,8 @@ import {
   DailySummary,
   NutritionService
 } from '../../../core/services/nutrition.service';
+import { AuthService } from '../../../core/services/auth.service';
+import { Plan, PlanService, SemanaPlan } from '../../../core/services/plan.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,14 +14,24 @@ import {
 })
 export class DashboardComponent implements OnInit {
   summary: DailySummary | null = null;
+  selectedPlan: Plan | null = null;
   today = new Date().toISOString().split('T')[0];
   loading = true;
+  firstName = '';
 
   readonly greetings = ['Buenos dias', 'Buenas tardes', 'Buenas noches'];
 
-  constructor(private nutritionService: NutritionService) {}
+  constructor(
+    private nutritionService: NutritionService,
+    private authService: AuthService,
+    private planService: PlanService
+  ) {}
 
   ngOnInit(): void {
+    const user = this.authService.getUser();
+    this.firstName = user?.firstName?.trim() || '';
+    this.selectedPlan = this.planService.getSelectedPlan();
+
     this.nutritionService.getDailySummary(this.today).subscribe({
       next: (data) => {
         this.summary = data;
@@ -40,6 +52,18 @@ export class DashboardComponent implements OnInit {
       return this.greetings[1];
     }
     return this.greetings[2];
+  }
+
+  get greetingLine(): string {
+    return this.firstName ? `${this.greeting}, ${this.firstName}` : this.greeting;
+  }
+
+  get activeConditionLabel(): string {
+    return this.selectedPlan?.condicion || 'Sin plan activo';
+  }
+
+  get currentWeekPlan(): SemanaPlan | null {
+    return this.selectedPlan?.semanas?.[0] ?? null;
   }
 
   get calories(): number {

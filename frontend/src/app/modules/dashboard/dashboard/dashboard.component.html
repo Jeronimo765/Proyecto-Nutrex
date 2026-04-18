@@ -1,16 +1,39 @@
 <div class="dashboard container">
   <header class="dashboard__header fade-in">
     <div class="dashboard__intro">
-      <h1 class="dashboard__greeting">{{ greeting }}, Juan</h1>
+      <h1 class="dashboard__greeting">{{ greetingLine }}</h1>
       <p class="dashboard__subtitle">
         Semana 3 de tu plan · Hoy {{ today | date:"EEEE d 'de' MMMM":"":"es" }}
+      </p>
+      <p class="dashboard__subtitle" *ngIf="selectedPlan">
+        Plan activo: {{ selectedPlan.condicion }} · {{ selectedPlan.tipoPlan }}
+      </p>
+      <p class="dashboard__subtitle" *ngIf="!selectedPlan">
+        Aun no has elegido un plan. Ve a Planes y activa uno para verlo aqui.
       </p>
     </div>
 
     <div class="dashboard__badges">
-      <span class="badge badge--green">Diabetes</span>
+      <span class="badge badge--green">{{ activeConditionLabel }}</span>
     </div>
   </header>
+
+  <section class="dashboard__summary fade-in" *ngIf="selectedPlan">
+    <div class="summary-card card card--white">
+      <div class="summary-card__top">
+        <span class="summary-card__label">Objetivo del plan</span>
+        <span class="badge badge--green">{{ selectedPlan.tipoPlan }}</span>
+      </div>
+
+      <div class="summary-card__plan">
+        {{ selectedPlan.objetivo }}
+      </div>
+
+      <p class="summary-card__description">
+        {{ selectedPlan.descripcion }}
+      </p>
+    </div>
+  </section>
 
   <section class="dashboard__summary fade-in">
     <div class="summary-card card card--white">
@@ -83,36 +106,67 @@
   </section>
 
   <section class="dashboard__meals">
-    <h2 class="section-title">Comidas de hoy</h2>
+    <h2 class="section-title">{{ selectedPlan ? 'Comidas sugeridas del plan' : 'Comidas de hoy' }}</h2>
 
-    <div class="meal-list">
+    <div class="meal-list" *ngIf="currentWeekPlan; else defaultMeals">
       <div class="meal-item card card--white">
         <span class="meal-item__icon">D</span>
         <div class="meal-item__info">
           <span class="meal-item__name">Desayuno</span>
-          <span class="meal-item__detail">Avena con fresas - 320 kcal</span>
+          <span class="meal-item__detail">{{ currentWeekPlan.desayuno }}</span>
         </div>
-        <span class="badge badge--green">Completado</span>
+        <span class="badge badge--green">Semana {{ currentWeekPlan.semana }}</span>
       </div>
 
       <div class="meal-item card card--white">
         <span class="meal-item__icon">A</span>
         <div class="meal-item__info">
           <span class="meal-item__name">Almuerzo</span>
-          <span class="meal-item__detail">Pollo + quinoa + brocoli - 480 kcal</span>
+          <span class="meal-item__detail">{{ currentWeekPlan.almuerzo }}</span>
         </div>
-        <span class="badge badge--green">Completado</span>
+        <span class="badge badge--green">Plan activo</span>
       </div>
 
-      <div class="meal-item card card--white meal-item--pending">
+      <div class="meal-item card card--white">
         <span class="meal-item__icon">C</span>
         <div class="meal-item__info">
           <span class="meal-item__name">Cena</span>
-          <span class="meal-item__detail">Toca para registrar tu cena</span>
+          <span class="meal-item__detail">{{ currentWeekPlan.cena }}</span>
         </div>
-        <span class="meal-item__action">Pendiente</span>
+        <span class="badge badge--green">Recomendada</span>
       </div>
     </div>
+
+    <ng-template #defaultMeals>
+      <div class="meal-list">
+        <div class="meal-item card card--white">
+          <span class="meal-item__icon">D</span>
+          <div class="meal-item__info">
+            <span class="meal-item__name">Desayuno</span>
+            <span class="meal-item__detail">Avena con fresas - 320 kcal</span>
+          </div>
+          <span class="badge badge--green">Completado</span>
+        </div>
+
+        <div class="meal-item card card--white">
+          <span class="meal-item__icon">A</span>
+          <div class="meal-item__info">
+            <span class="meal-item__name">Almuerzo</span>
+            <span class="meal-item__detail">Pollo + quinoa + brocoli - 480 kcal</span>
+          </div>
+          <span class="badge badge--green">Completado</span>
+        </div>
+
+        <div class="meal-item card card--white meal-item--pending">
+          <span class="meal-item__icon">C</span>
+          <div class="meal-item__info">
+            <span class="meal-item__name">Cena</span>
+            <span class="meal-item__detail">Toca para registrar tu cena</span>
+          </div>
+          <span class="meal-item__action">Pendiente</span>
+        </div>
+      </div>
+    </ng-template>
   </section>
 
   <section class="dashboard__tip card card--green fade-in">
@@ -121,8 +175,7 @@
       <strong>Consejo de NutriBot</strong>
     </div>
     <p>
-      Tu nivel de fibra esta excelente. Para la cena, opta por proteina magra
-      y verduras sin almidon para mantener la glucosa estable durante la noche.
+      {{ selectedPlan ? selectedPlan.enfoque[0] : 'Tu nivel de fibra esta excelente. Para la cena, opta por proteina magra y verduras sin almidon para mantener la glucosa estable durante la noche.' }}
     </p>
     <button type="button" class="btn btn-primary tip__btn">
       Preguntarle mas a NutriBot

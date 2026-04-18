@@ -17,7 +17,7 @@ export class ChatbotWidgetComponent {
   isTyping    = false;
   inputText   = '';
   conditions  = ['DIABETES_T2'];
-  userName    = 'Juan';
+  userName    = '';
 
   messages: Message[] = [
     {

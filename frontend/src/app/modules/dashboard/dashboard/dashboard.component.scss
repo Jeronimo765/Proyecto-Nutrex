@@ -77,6 +77,20 @@
   }
 }
 
+.summary-card__plan {
+  margin-top: 0.8rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-forest);
+  line-height: 1.45;
+}
+
+.summary-card__description {
+  margin: 0.85rem 0 0;
+  color: #667085;
+  line-height: 1.6;
+}
+
 .section-title {
   margin: 0 0 1rem;
   color: var(--color-forest);

@@ -8,7 +8,16 @@
   <p>Cargando planes nutricionales...</p>
 </section>
 
-<section class="planes-grid" *ngIf="!loading">
+<section class="planes-hero" *ngIf="!loading && error">
+  <p>No pudimos cargar los planes en este momento.</p>
+  <p *ngIf="errorMessage">{{ errorMessage }}</p>
+</section>
+
+<section class="planes-hero" *ngIf="!loading && !error && planes.length === 0">
+  <p>No hay planes disponibles por ahora.</p>
+</section>
+
+<section class="planes-grid" *ngIf="!loading && !error && planes.length > 0">
   <div
     class="plan-card"
     *ngFor="let plan of planes"
@@ -35,7 +44,11 @@
     </div>
 
     <span class="ver-plan">
-      {{ planSeleccionado?.id === plan.id ? 'Cerrar plan ↑' : 'Ver plan completo →' }}
+      {{ planSeleccionado?.id === plan.id ? 'Cerrar plan' : 'Ver plan completo' }}
+    </span>
+
+    <span class="ver-plan" *ngIf="planActivo?.id === plan.id">
+      Plan usado en tu panel
     </span>
   </div>
 </section>
@@ -49,6 +62,9 @@
       <span class="detalle-tipo">{{ planSeleccionado.tipoPlan }}</span>
       <strong>{{ planSeleccionado.objetivo }}</strong>
     </div>
+    <button type="button" class="btn btn-primary" (click)="activarPlan(planSeleccionado)">
+      Usar este plan en mi panel
+    </button>
   </div>
 
   <div class="detalle-body">

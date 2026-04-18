@@ -5,6 +5,8 @@ import java.util.Map;
 
 public record AiChatRequest(
     String mensaje,
-    List<Map<String, String>> historial
+    List<Map<String, String>> historial,
+    List<String> user_conditions,
+    String user_name
 ) {
 }

@@ -2,6 +2,7 @@ import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, ViewChi
 import { Chart, registerables } from 'chart.js';
 
 import { ChatMessage, ChatService } from '../chat.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 Chart.register(...registerables);
 
@@ -19,7 +20,7 @@ export class ChatComponent implements OnInit, AfterViewChecked, AfterViewInit {
   inputText = '';
   isTyping = false;
   today = new Date();
-  userName = 'U';
+  userName = '';
   conditions = ['DIABETES_T2'];
   showSuggestions = true;
   macrosChart: Chart | undefined;
@@ -46,13 +47,18 @@ export class ChatComponent implements OnInit, AfterViewChecked, AfterViewInit {
     'Cuanta agua debo tomar al dia?'
   ];
 
-  constructor(private chatService: ChatService) {}
+  constructor(
+    private chatService: ChatService,
+    private authService: AuthService
+  ) {}
 
   get porcentajeCalorias(): number {
     return Math.round((this.caloriasConsumidas / this.caloriasMeta) * 100);
   }
 
   ngOnInit(): void {
+    const user = this.authService.getUser();
+    this.userName = user?.firstName?.trim() || '';
     this.loadWelcomeMessage();
   }
 
