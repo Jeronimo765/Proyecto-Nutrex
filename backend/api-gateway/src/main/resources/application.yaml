@@ -6,6 +6,9 @@ spring:
     name: api-gateway
   cloud:
     gateway:
+      httpclient:
+        connect-timeout: 10000
+        response-timeout: 30s
       globalcors:
         cors-configurations:
           '[/**]':
@@ -14,32 +17,22 @@ spring:
             allowedHeaders: "*"
       routes:
         - id: user-service-auth
-          uri: ${services.user-service.url}
+          uri: http://nutrex-user:8081
           predicates:
             - Path=/api/auth/**
         - id: user-service-contact
-          uri: ${services.user-service.url}
+          uri: http://nutrex-user:8081
           predicates:
             - Path=/api/contact/**
         - id: nutrition-service-api
-          uri: ${services.nutrition-service.url}
+          uri: http://nutrex-nutrition:8082
           predicates:
             - Path=/api/nutrition/**
         - id: plan-service-api
-          uri: ${services.plan-service.url}
+          uri: http://nutrex-plan:8083
           predicates:
             - Path=/api/plans,/api/plans/**
         - id: ai-service-routes
-          uri: ${services.ai-service.url}
+          uri: http://nutrex-ai:8000
           predicates:
             - Path=/nutrition/**,/scan/**,/ai/**
-
-services:
-  user-service:
-    url: http://localhost:8081
-  nutrition-service:
-    url: http://localhost:8082
-  plan-service:
-    url: http://localhost:8083
-  ai-service:
-    url: http://localhost:8000

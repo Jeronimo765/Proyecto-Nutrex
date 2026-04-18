@@ -1,0 +1,92 @@
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: nutrex-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: nutrex_db
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_USER: nutrex
+      MYSQL_PASSWORD: nutrex1234
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - nutrex-net
+
+  api-gateway:
+    build: ./backend/api-gateway
+    container_name: nutrex-gateway
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      SERVICES_USER-SERVICE_URL: http://nutrex-user:8081
+      SERVICES_NUTRITION-SERVICE_URL: http://nutrex-nutrition:8082
+      SERVICES_PLAN-SERVICE_URL: http://nutrex-plan:8083
+      SERVICES_AI-SERVICE_URL: http://nutrex-ai:8000
+    ports:
+      - "8080:8080"
+    networks:
+      - nutrex-net
+
+  user-service:
+    build: ./backend/user-service
+    container_name: nutrex-user
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/nutrex_db
+      SPRING_DATASOURCE_USERNAME: nutrex
+      SPRING_DATASOURCE_PASSWORD: nutrex1234
+    ports:
+      - "8081:8081"
+    networks:
+      - nutrex-net
+
+  nutrition-service:
+    build: ./backend/nutrition-service
+    container_name: nutrex-nutrition
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/nutrex_db
+      SPRING_DATASOURCE_USERNAME: nutrex
+      SPRING_DATASOURCE_PASSWORD: nutrex1234
+    ports:
+      - "8082:8082"
+    networks:
+      - nutrex-net
+
+  plan-service:
+    build: ./backend/plan-service
+    container_name: nutrex-plan
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/nutrex_db
+      SPRING_DATASOURCE_USERNAME: nutrex
+      SPRING_DATASOURCE_PASSWORD: nutrex1234
+    ports:
+      - "8083:8083"
+    networks:
+      - nutrex-net
+
+  frontend:
+    build: ./frontend
+    container_name: nutrex-frontend
+    ports:
+      - "80:80"
+    networks:
+      - nutrex-net
+
+volumes:
+  mysql_data:
+
+networks:
+  nutrex-net:
