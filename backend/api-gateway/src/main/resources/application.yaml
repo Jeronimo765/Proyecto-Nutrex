@@ -1,0 +1,45 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+      routes:
+        - id: user-service-auth
+          uri: ${services.user-service.url}
+          predicates:
+            - Path=/api/auth/**
+        - id: user-service-contact
+          uri: ${services.user-service.url}
+          predicates:
+            - Path=/api/contact/**
+        - id: nutrition-service-api
+          uri: ${services.nutrition-service.url}
+          predicates:
+            - Path=/api/nutrition/**
+        - id: plan-service-api
+          uri: ${services.plan-service.url}
+          predicates:
+            - Path=/api/plans/**
+        - id: ai-service-routes
+          uri: ${services.ai-service.url}
+          predicates:
+            - Path=/nutrition/**,/scan/**,/ai/**
+
+services:
+  user-service:
+    url: http://localhost:8081
+  nutrition-service:
+    url: http://localhost:8082
+  plan-service:
+    url: http://localhost:8083
+  ai-service:
+    url: http://localhost:8000

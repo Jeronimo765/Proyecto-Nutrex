@@ -1,0 +1,16 @@
+com\nutrex\apigateway\nutrition\dto\FoodTextAnalysisRequest.class
+com\nutrex\apigateway\chat\dto\FrontendChatRequest.class
+com\nutrex\apigateway\nutrition\dto\FrontendFoodAnalysisResponse.class
+com\nutrex\apigateway\chat\dto\AiChatResponse.class
+com\nutrex\apigateway\chat\dto\FrontendChatMessage.class
+com\nutrex\apigateway\ApiGatewayApplication.class
+com\nutrex\apigateway\chat\ChatProxyController.class
+com\nutrex\apigateway\chat\dto\AiChatRequest.class
+com\nutrex\apigateway\chat\dto\FrontendChatResponse.class
+com\nutrex\apigateway\nutrition\FoodProxyController.class
+com\nutrex\apigateway\nutrition\dto\AiFoodAlert.class
+com\nutrex\apigateway\nutrition\dto\AiFoodScanResponse.class
+com\nutrex\apigateway\nutrition\FoodAnalysisService$1.class
+com\nutrex\apigateway\nutrition\dto\AiFoodMacros.class
+com\nutrex\apigateway\config\WebClientConfig.class
+com\nutrex\apigateway\nutrition\FoodAnalysisService.class

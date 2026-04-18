@@ -1,0 +1,15 @@
+C:\Users\HOGARR\nutrex\backend\api-gateway\src\main\java\com\nutrex\apigateway\ApiGatewayApplication.java
+C:\Users\HOGARR\nutrex\backend\api-gateway\src\main\java\com\nutrex\apigateway\chat\ChatProxyController.java
+C:\Users\HOGARR\nutrex\backend\api-gateway\src\main\java\com\nutrex\apigateway\chat\dto\AiChatRequest.java
+C:\Users\HOGARR\nutrex\backend\api-gateway\src\main\java\com\nutrex\apigateway\chat\dto\AiChatResponse.java
+C:\Users\HOGARR\nutrex\backend\api-gateway\src\main\java\com\nutrex\apigateway\chat\dto\FrontendChatMessage.java
+C:\Users\HOGARR\nutrex\backend\api-gateway\src\main\java\com\nutrex\apigateway\chat\dto\FrontendChatRequest.java
+C:\Users\HOGARR\nutrex\backend\api-gateway\src\main\java\com\nutrex\apigateway\chat\dto\FrontendChatResponse.java
+C:\Users\HOGARR\nutrex\backend\api-gateway\src\main\java\com\nutrex\apigateway\config\WebClientConfig.java
+C:\Users\HOGARR\nutrex\backend\api-gateway\src\main\java\com\nutrex\apigateway\nutrition\dto\AiFoodAlert.java
+C:\Users\HOGARR\nutrex\backend\api-gateway\src\main\java\com\nutrex\apigateway\nutrition\dto\AiFoodMacros.java
+C:\Users\HOGARR\nutrex\backend\api-gateway\src\main\java\com\nutrex\apigateway\nutrition\dto\AiFoodScanResponse.java
+C:\Users\HOGARR\nutrex\backend\api-gateway\src\main\java\com\nutrex\apigateway\nutrition\dto\FoodTextAnalysisRequest.java
+C:\Users\HOGARR\nutrex\backend\api-gateway\src\main\java\com\nutrex\apigateway\nutrition\dto\FrontendFoodAnalysisResponse.java
+C:\Users\HOGARR\nutrex\backend\api-gateway\src\main\java\com\nutrex\apigateway\nutrition\FoodAnalysisService.java
+C:\Users\HOGARR\nutrex\backend\api-gateway\src\main\java\com\nutrex\apigateway\nutrition\FoodProxyController.java

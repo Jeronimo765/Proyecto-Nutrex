@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface ChatMessagePayload {
   role: 'user' | 'assistant';
@@ -23,7 +24,7 @@ export interface ChatResponsePayload {
   providedIn: 'root'
 })
 export class ChatService {
-  private readonly baseUrl = 'http://localhost:8000/api/chat';
+  private readonly baseUrl = `${environment.gatewayUrl}/api/chat`;
 
   constructor(private http: HttpClient) {}
 

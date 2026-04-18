@@ -4,7 +4,11 @@
   <p>Selecciona tu condicion y accede a un plan semanal con una presentacion mas clara, natural y coherente con Nutrex.</p>
 </section>
 
-<section class="planes-grid">
+<section class="planes-hero" *ngIf="loading">
+  <p>Cargando planes nutricionales...</p>
+</section>
+
+<section class="planes-grid" *ngIf="!loading">
   <div
     class="plan-card"
     *ngFor="let plan of planes"

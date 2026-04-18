@@ -1,0 +1,5 @@
+com\nutrex\nutritionservice\dto\DailySummaryResponse$DailySummaryResponseBuilder.class
+com\nutrex\nutritionservice\NutritionServiceApplication.class
+com\nutrex\nutritionservice\service\DailySummaryService.class
+com\nutrex\nutritionservice\controller\DailySummaryController.class
+com\nutrex\nutritionservice\dto\DailySummaryResponse.class

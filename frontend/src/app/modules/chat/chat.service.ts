@@ -24,7 +24,7 @@ export interface ChatResponse {
 @Injectable({ providedIn: 'root' })
 export class ChatService {
 
-  private readonly API = `${environment.aiServiceUrl}/api/chat`;
+  private readonly API = `${environment.gatewayUrl}/api/chat`;
 
   constructor(private http: HttpClient) {}
 

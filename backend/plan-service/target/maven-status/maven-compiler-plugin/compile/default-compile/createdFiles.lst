@@ -1,0 +1,7 @@
+com\nutrex\planservice\dto\PlanResponse.class
+com\nutrex\planservice\dto\SemanaPlanResponse.class
+com\nutrex\planservice\service\PlanCatalogService.class
+com\nutrex\planservice\PlanServiceApplication.class
+com\nutrex\planservice\dto\SemanaPlanResponse$SemanaPlanResponseBuilder.class
+com\nutrex\planservice\controller\PlanController.class
+com\nutrex\planservice\dto\PlanResponse$PlanResponseBuilder.class
