@@ -77,6 +77,21 @@ services:
     networks:
       - nutrex-net
 
+  ai-service:
+    build: ./ai-service
+    container_name: nutrex-ai
+    restart: always
+    environment:
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      GEMINI_MODEL: gemini-2.5-flash
+      APP_NAME: Nutrex AI Service
+      PORT: "8000"
+      ENVIRONMENT: production
+    ports:
+      - "8000:8000"
+    networks:
+      - nutrex-net
+
   frontend:
     build: ./frontend
     container_name: nutrex-frontend
