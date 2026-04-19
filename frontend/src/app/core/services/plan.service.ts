@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, map, of, switchMap, throwError } from 'rxjs';
+import { Observable, catchError, map, of, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 export interface SemanaPlan {
@@ -25,21 +25,12 @@ export interface Plan {
 @Injectable({ providedIn: 'root' })
 export class PlanService {
   private readonly selectedPlanStorageKey = 'nutrex_selected_plan';
-  private readonly plansApiUrl = `${environment.gatewayUrl || ''}/api/plans`;
-  private readonly fallbackPlansApiUrl = 'http://localhost:8080/api/plans';
+  private readonly plansApiUrl = `${environment.gatewayUrl}/api/plans`;
 
   constructor(private http: HttpClient) {}
 
   getPlans(): Observable<Plan[]> {
-    return this.fetchPlans(this.plansApiUrl).pipe(
-      catchError(() => {
-        if (this.plansApiUrl === this.fallbackPlansApiUrl) {
-          return throwError(() => new Error('No se pudieron cargar los planes.'));
-        }
-
-        return this.fetchPlans(this.fallbackPlansApiUrl);
-      })
-    );
+    return this.fetchPlans(this.plansApiUrl);
   }
 
   saveSelectedPlan(plan: Plan): void {
@@ -48,11 +39,7 @@ export class PlanService {
 
   getSelectedPlan(): Plan | null {
     const rawPlan = localStorage.getItem(this.selectedPlanStorageKey);
-
-    if (!rawPlan) {
-      return null;
-    }
-
+    if (!rawPlan) return null;
     try {
       return JSON.parse(rawPlan) as Plan;
     } catch {
@@ -71,7 +58,6 @@ export class PlanService {
             catchError(() => throwError(() => error))
           );
         }
-
         return throwError(() => error);
       })
     );
@@ -79,21 +65,12 @@ export class PlanService {
 
   private parsePlansResponse(response: string): Plan[] {
     const trimmed = response.trim();
-
-    if (!trimmed) {
-      throw new Error('La respuesta de planes llego vacia.');
-    }
-
+    if (!trimmed) throw new Error('La respuesta de planes llego vacia.');
     if (trimmed.startsWith('<!doctype html') || trimmed.startsWith('<html')) {
       throw new Error('La respuesta de planes devolvio HTML en lugar de JSON.');
     }
-
     const parsed = JSON.parse(trimmed) as Plan[];
-
-    if (!Array.isArray(parsed)) {
-      throw new Error('La respuesta de planes no tiene el formato esperado.');
-    }
-
+    if (!Array.isArray(parsed)) throw new Error('La respuesta de planes no tiene el formato esperado.');
     return parsed;
   }
 }
