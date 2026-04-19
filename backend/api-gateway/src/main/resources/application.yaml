@@ -17,22 +17,22 @@ spring:
             allowedHeaders: "*"
       routes:
         - id: user-service-auth
-          uri: http://nutrex-user:8081
+          uri: https://nutrex-user-service.onrender.com
           predicates:
             - Path=/api/auth/**
         - id: user-service-contact
-          uri: http://nutrex-user:8081
+          uri: https://nutrex-user-service.onrender.com
           predicates:
             - Path=/api/contact/**
         - id: nutrition-service-api
-          uri: http://nutrex-nutrition:8082
+          uri: https://nutrex-nutrition-service.onrender.com
           predicates:
             - Path=/api/nutrition/**
         - id: plan-service-api
-          uri: http://nutrex-plan:8083
+          uri: https://nutrex-plan-service.onrender.com
           predicates:
             - Path=/api/plans,/api/plans/**
         - id: ai-service-routes
-          uri: http://nutrex-ai:8000
+          uri: https://nutrex-ai-service.onrender.com
           predicates:
             - Path=/nutrition/**,/scan/**,/ai/**
