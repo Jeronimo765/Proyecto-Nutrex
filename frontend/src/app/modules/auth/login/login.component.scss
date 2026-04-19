@@ -22,17 +22,14 @@
     margin-bottom: 1.75rem;
   }
 
-  &__icon {
+  &__mark {
     width: 4rem;
     height: 4rem;
     margin: 0 auto 0.75rem;
     border-radius: 999px;
-    display: grid;
-    place-items: center;
-    background: linear-gradient(135deg, #6f8f4e, #3f5f2c);
-    color: #fff;
-    font-size: 1.5rem;
-    font-weight: 700;
+    overflow: hidden;
+    display: block;
+    object-fit: cover;
   }
 
   &__brand {

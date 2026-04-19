@@ -38,13 +38,9 @@
 .brand__mark {
   width: 2.8rem;
   height: 2.8rem;
-  display: grid;
-  place-items: center;
   border-radius: 0.9rem;
-  background: linear-gradient(135deg, var(--color-leaf), var(--color-forest));
-  color: white;
-  font-weight: 700;
-  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  display: block;
 }
 
 .brand__copy {
