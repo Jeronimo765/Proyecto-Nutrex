@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: ${PORT:8080}
 
 spring:
   application:
@@ -7,8 +7,8 @@ spring:
   cloud:
     gateway:
       httpclient:
-        connect-timeout: 10000
-        response-timeout: 30s
+        connect-timeout: 60000
+        response-timeout: 120s
       globalcors:
         cors-configurations:
           '[/**]':
@@ -35,4 +35,13 @@ spring:
         - id: ai-service-routes
           uri: https://nutrex-ai-service.onrender.com
           predicates:
-            - Path=/nutrition/**,/scan/**,/ai/**
+            - Path=/nutrition/**,/scan/**,/ai/**,/api/chat/**
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
