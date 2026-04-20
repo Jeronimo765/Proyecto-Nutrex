@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, map, of, throwError } from 'rxjs';
+import { Observable, catchError, map, of, throwError, retry, timer } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 export interface SemanaPlan {
@@ -50,6 +50,7 @@ export class PlanService {
 
   private fetchPlans(url: string): Observable<Plan[]> {
     return this.http.get(url, { responseType: 'text' }).pipe(
+      retry({ count: 3, delay: (_, retryCount) => timer(retryCount * 3000) }),
       map((response) => this.parsePlansResponse(response)),
       catchError((error) => {
         if (typeof error?.error === 'string') {
