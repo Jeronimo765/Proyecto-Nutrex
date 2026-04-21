@@ -25,7 +25,7 @@ export interface Plan {
 @Injectable({ providedIn: 'root' })
 export class PlanService {
   private readonly selectedPlanStorageKey = 'nutrex_selected_plan';
-  private readonly plansApiUrl = `${environment.gatewayUrl}/api/plans`;
+  private readonly plansApiUrl = `${environment.gatewayUrl}/plans`;
 
   constructor(private http: HttpClient) {}
 
