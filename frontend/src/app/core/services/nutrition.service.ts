@@ -18,8 +18,8 @@ export interface DailySummary {
 
 @Injectable({ providedIn: 'root' })
 export class NutritionService {
-  private readonly foodApiUrl = `${environment.gatewayUrl}/api/food`;
-  private readonly nutritionApiUrl = `${environment.gatewayUrl}/api/nutrition`;
+  private readonly foodApiUrl = `${environment.gatewayUrl}/food`;
+  private readonly nutritionApiUrl = `${environment.gatewayUrl}/nutrition`;
 
   constructor(private http: HttpClient) {}
 

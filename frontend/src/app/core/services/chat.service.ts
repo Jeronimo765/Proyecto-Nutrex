@@ -24,7 +24,7 @@ export interface ChatResponsePayload {
   providedIn: 'root'
 })
 export class ChatService {
-  private readonly baseUrl = `${environment.gatewayUrl}/api/chat`;
+  private readonly baseUrl = `${environment.gatewayUrl}/chat`;
 
   constructor(private http: HttpClient) {}
 
