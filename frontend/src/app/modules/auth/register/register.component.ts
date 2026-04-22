@@ -77,7 +77,7 @@ export class RegisterComponent {
 
   private resolveErrorMessage(err: { status?: number; error?: { message?: string } }, fallback: string): string {
     if (err.status === 0) {
-      return 'No hay conexion con el servidor de autenticacion. Verifica que el backend este corriendo en http://localhost:8081';
+      return 'No hay conexion con el servidor de autenticacion. Verifica la conexion con Render o el gateway.';
     }
 
     return err.error?.message || fallback;
