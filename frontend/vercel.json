@@ -1,6 +1,14 @@
 {
   "rewrites": [
     {
+      "source": "/api/chat",
+      "destination": "https://nutrex-api-gateway.onrender.com/api/chat"
+    },
+    {
+      "source": "/api/chat/",
+      "destination": "https://nutrex-api-gateway.onrender.com/api/chat/"
+    },
+    {
       "source": "/api/ai/:path*",
       "destination": "https://nutrex-ai-service.onrender.com/:path*"
     },
@@ -9,7 +17,7 @@
       "destination": "https://nutrex-api-gateway.onrender.com/api/:path*"
     },
     {
-      "source": "/((?!api).*)",
+      "source": "/:path((?!api/).*)",
       "destination": "/index.html"
     }
   ]
