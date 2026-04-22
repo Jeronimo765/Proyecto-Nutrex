@@ -9,23 +9,33 @@
         </div>
       </a>
 
+      <a *ngIf="isAuthRoute" class="topbar__home-link" routerLink="/">
+        Volver al inicio
+      </a>
+
       <button
+        *ngIf="!isAuthRoute"
         type="button"
         class="menu-toggle"
         [class.menu-toggle--active]="isMenuOpen"
         (click)="toggleMenu()"
         [attr.aria-expanded]="isMenuOpen"
         aria-controls="primary-navigation"
-        aria-label="Abrir menu principal">
+        [attr.aria-label]="isMenuOpen ? 'Cerrar menu principal' : 'Abrir menu principal'">
         <span class="menu-toggle__icon">
           <span></span>
           <span></span>
           <span></span>
         </span>
-        <span class="menu-toggle__label">Menu</span>
+        <span class="menu-toggle__label">{{ isMenuOpen ? 'Cerrar' : 'Menu' }}</span>
       </button>
 
-      <div class="topbar__nav" [class.topbar__nav--open]="isMenuOpen" id="primary-navigation">
+      <div *ngIf="!isAuthRoute" class="topbar__nav" [class.topbar__nav--open]="isMenuOpen" id="primary-navigation">
+        <div class="topbar__nav-head">
+          <strong>Explora Nutrex</strong>
+          <span>Accede rapido a cada seccion</span>
+        </div>
+
         <nav class="menu" aria-label="Principal">
           <a routerLink="/" class="menu__link" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMenu()">Inicio</a>
           <a routerLink="/planes" class="menu__link" routerLinkActive="active" (click)="closeMenu()">Planes</a>
@@ -45,14 +55,14 @@
     </div>
 
     <button
-      *ngIf="isMenuOpen"
+      *ngIf="!isAuthRoute && isMenuOpen"
       type="button"
       class="topbar__backdrop"
       (click)="closeMenu()"
       aria-label="Cerrar menu">
     </button>
 
-    <nav class="mobile-shortcuts container" aria-label="Accesos rapidos">
+    <nav *ngIf="!isAuthRoute" class="mobile-shortcuts container" aria-label="Accesos rapidos">
       <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Inicio</a>
       <a routerLink="/planes" routerLinkActive="active">Planes</a>
       <a routerLink="/recetas" routerLinkActive="active">Recetas</a>

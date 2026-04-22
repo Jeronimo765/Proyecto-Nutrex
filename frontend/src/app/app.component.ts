@@ -53,6 +53,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   currentSlide = 0;
   isHomeRoute = true;
+  isAuthRoute = false;
   isMenuOpen = false;
   private carouselIntervalId: ReturnType<typeof setInterval> | null = null;
 
@@ -122,6 +123,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private updateLayoutForRoute(url: string): void {
     this.isHomeRoute = url === '/' || url === '';
+    this.isAuthRoute = url.startsWith('/auth');
     this.closeMenu();
 
     if (this.isHomeRoute) {

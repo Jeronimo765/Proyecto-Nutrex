@@ -18,7 +18,11 @@
             formControlName="email"
             type="email"
             placeholder="tu@correo.com"
-            autocomplete="email">
+            autocomplete="email"
+            autocapitalize="off"
+            autocorrect="off"
+            spellcheck="false"
+            inputmode="email">
         </div>
         <span class="form-error" *ngIf="email.invalid && email.touched">
           Ingresa un correo valido
@@ -36,7 +40,11 @@
             formControlName="password"
             [type]="showPass ? 'text' : 'password'"
             placeholder="Minimo 8 caracteres"
-            autocomplete="current-password">
+            autocomplete="current-password"
+            autocapitalize="off"
+            autocorrect="off"
+            spellcheck="false"
+            enterkeyhint="go">
           <button
             type="button"
             class="input-toggle"
