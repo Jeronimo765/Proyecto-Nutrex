@@ -67,7 +67,7 @@
       class="btn"
       [ngClass]="isPlanActivo(planSeleccionado) ? 'btn-outline' : 'btn-primary'"
       [disabled]="isPlanActivo(planSeleccionado)"
-      (click)="usarPlanEnPanel(planSeleccionado)">
+      (click)="activarPlan(planSeleccionado)">
       {{ isPlanActivo(planSeleccionado) ? 'Ya escogiste este plan' : 'Usar este plan en mi panel' }}
     </button>
   </div>

@@ -26,6 +26,7 @@
   justify-content: space-between;
   gap: 1rem;
   position: relative;
+  z-index: 3;
 }
 
 .brand {
@@ -114,16 +115,28 @@
   display: none;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  gap: 0.28rem;
-  width: 3rem;
+  gap: 0.65rem;
+  min-width: 5.7rem;
   height: 3rem;
-  padding: 0;
+  padding: 0 0.95rem;
   border: 1px solid rgba(44, 59, 10, 0.12);
   border-radius: 0.95rem;
   background: rgba(255, 255, 255, 0.85);
   box-shadow: var(--shadow-sm);
   cursor: pointer;
+  color: var(--color-forest);
+
+  .menu-toggle__icon {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 0.28rem;
+  }
+
+  .menu-toggle__label {
+    font-size: 0.92rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
 
   span {
     width: 1.2rem;
@@ -135,17 +148,25 @@
 }
 
 .menu-toggle--active {
-  span:nth-child(1) {
+  .menu-toggle__icon span:nth-child(1) {
     transform: translateY(6px) rotate(45deg);
   }
 
-  span:nth-child(2) {
+  .menu-toggle__icon span:nth-child(2) {
     opacity: 0;
   }
 
-  span:nth-child(3) {
+  .menu-toggle__icon span:nth-child(3) {
     transform: translateY(-6px) rotate(-45deg);
   }
+}
+
+.topbar__backdrop {
+  display: none;
+}
+
+.mobile-shortcuts {
+  display: none;
 }
 
 .hero-carousel {
@@ -345,6 +366,7 @@
 
   .menu-toggle {
     display: inline-flex;
+    flex-shrink: 0;
   }
 
   .topbar__nav {
@@ -364,6 +386,7 @@
     pointer-events: none;
     transform: translateY(-10px);
     transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;
+    z-index: 4;
   }
 
   .topbar__nav--open {
@@ -376,6 +399,46 @@
   .menu {
     display: grid;
     gap: 0.25rem;
+  }
+
+  .topbar__backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    border: 0;
+    background: rgba(34, 42, 11, 0.18);
+    z-index: 2;
+  }
+
+  .mobile-shortcuts {
+    display: flex;
+    gap: 0.65rem;
+    padding-top: 0;
+    padding-bottom: 0.75rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    a {
+      flex: 0 0 auto;
+      text-decoration: none;
+      color: var(--color-forest);
+      font-weight: 600;
+      font-size: 0.92rem;
+      padding: 0.7rem 0.95rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(44, 59, 10, 0.08);
+      white-space: nowrap;
+    }
+
+    a.active {
+      background: rgba(184, 216, 154, 0.55);
+      border-color: rgba(122, 158, 78, 0.3);
+    }
   }
 
   .menu__link {
@@ -416,6 +479,24 @@
 }
 
 @media (max-width: 520px) {
+  .brand__mark {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .brand__copy strong {
+    font-size: 0.96rem;
+  }
+
+  .menu-toggle {
+    min-width: 5.25rem;
+    padding-inline: 0.8rem;
+  }
+
+  .menu-toggle__label {
+    font-size: 0.86rem;
+  }
+
   .topbar__nav {
     left: 0.65rem;
     right: 0.65rem;

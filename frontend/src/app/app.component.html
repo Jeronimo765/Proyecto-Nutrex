@@ -17,9 +17,12 @@
         [attr.aria-expanded]="isMenuOpen"
         aria-controls="primary-navigation"
         aria-label="Abrir menu principal">
-        <span></span>
-        <span></span>
-        <span></span>
+        <span class="menu-toggle__icon">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+        <span class="menu-toggle__label">Menu</span>
       </button>
 
       <div class="topbar__nav" [class.topbar__nav--open]="isMenuOpen" id="primary-navigation">
@@ -40,6 +43,22 @@
         </div>
       </div>
     </div>
+
+    <button
+      *ngIf="isMenuOpen"
+      type="button"
+      class="topbar__backdrop"
+      (click)="closeMenu()"
+      aria-label="Cerrar menu">
+    </button>
+
+    <nav class="mobile-shortcuts container" aria-label="Accesos rapidos">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Inicio</a>
+      <a routerLink="/planes" routerLinkActive="active">Planes</a>
+      <a routerLink="/recetas" routerLinkActive="active">Recetas</a>
+      <a routerLink="/chat" routerLinkActive="active">NutriBot</a>
+      <a routerLink="/contacto" routerLinkActive="active">Contacto</a>
+    </nav>
   </header>
 
   <section class="hero-carousel" *ngIf="isHomeRoute">

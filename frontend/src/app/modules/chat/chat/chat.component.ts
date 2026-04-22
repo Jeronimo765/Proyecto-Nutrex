@@ -215,7 +215,8 @@ export class ChatComponent implements OnInit, AfterViewChecked, AfterViewInit {
           timestamp: new Date()
         });
       },
-      error: () => {
+      error: (error) => {
+        console.error('NutriBot chat request failed', error);
         this.isTyping = false;
         this.messages.push({
           role: 'assistant',

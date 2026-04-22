@@ -64,7 +64,8 @@ export class ChatbotWidgetComponent {
         this.isTyping = false;
         this.messages.push({ role: 'assistant', content: res.response });
       },
-      error: () => {
+      error: (error) => {
+        console.error('NutriBot widget request failed', error);
         this.isTyping = false;
         this.messages.push({
           role:    'assistant',

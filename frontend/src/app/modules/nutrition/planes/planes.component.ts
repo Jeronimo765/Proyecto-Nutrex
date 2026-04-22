@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { Plan, PlanService } from '../../../core/services/plan.service';
 
 @Component({
@@ -16,10 +15,7 @@ export class PlanesComponent implements OnInit {
   error = false;
   errorMessage = '';
 
-  constructor(
-    private planService: PlanService,
-    private router: Router
-  ) {}
+  constructor(private planService: PlanService) {}
 
   ngOnInit(): void {
     this.planActivo = this.planService.getSelectedPlan();
@@ -54,11 +50,6 @@ export class PlanesComponent implements OnInit {
     this.planService.saveSelectedPlan(plan);
     this.planActivo = plan;
     this.planSeleccionado = plan;
-  }
-
-  usarPlanEnPanel(plan: Plan): void {
-    this.activarPlan(plan);
-    this.router.navigateByUrl('/dashboard');
   }
 
   isPlanActivo(plan: Plan | null): boolean {
