@@ -9,17 +9,22 @@ import jakarta.validation.Valid;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/chat")
 public class ChatProxyController {
+    private static final Logger log = LoggerFactory.getLogger(ChatProxyController.class);
 
     private final WebClient aiServiceWebClient;
 
@@ -42,8 +47,24 @@ public class ChatProxyController {
             .contentType(MediaType.APPLICATION_JSON)
             .bodyValue(aiRequest)
             .retrieve()
+            .onStatus(HttpStatusCode::isError, response ->
+                response.bodyToMono(String.class)
+                    .defaultIfEmpty("")
+                    .flatMap(body -> {
+                        log.error(
+                            "AI chat service failed. status={} body={}",
+                            response.statusCode().value(),
+                            body
+                        );
+                        return Mono.error(new ResponseStatusException(
+                            response.statusCode(),
+                            body.isBlank() ? "Error en el servicio de IA" : body
+                        ));
+                    })
+            )
             .bodyToMono(AiChatResponse.class)
-            .map(response -> new FrontendChatResponse(response.respuesta(), 0));
+            .map(response -> new FrontendChatResponse(response.respuesta(), 0))
+            .doOnError(error -> log.error("Error calling AI chat service", error));
     }
 
     private List<Map<String, String>> toAiHistory(List<FrontendChatMessage> history) {

@@ -1,5 +1,6 @@
 import base64
 import json
+import logging
 import os
 import re
 from typing import Optional
@@ -19,6 +20,7 @@ from app.models.nutrition import (
 )
 
 load_dotenv()
+logger = logging.getLogger(__name__)
 
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
@@ -47,6 +49,28 @@ def _clean_json(raw_text: str) -> str:
     return cleaned
 
 
+def _extract_response_text(response) -> str:
+    text = getattr(response, "text", None)
+    if text:
+        return text
+
+    candidates = getattr(response, "candidates", None) or []
+    parts: list[str] = []
+
+    for candidate in candidates:
+        content = getattr(candidate, "content", None)
+        for part in getattr(content, "parts", []) or []:
+            part_text = getattr(part, "text", None)
+            if part_text:
+                parts.append(part_text)
+
+    joined = "\n".join(parts).strip()
+    if joined:
+        return joined
+
+    raise ValueError("Gemini no devolvio texto util en la respuesta.")
+
+
 def _get_contexto(condicion_medica: Optional[str]) -> str:
     if not condicion_medica:
         return CONDICIONES["ninguna"]
@@ -54,17 +78,21 @@ def _get_contexto(condicion_medica: Optional[str]) -> str:
 
 
 def _generate_json(prompt: str, system_instruction: str, temperature: float = 0.4) -> dict:
-    response = client.models.generate_content(
-        model=GEMINI_MODEL,
-        contents=prompt,
-        config=types.GenerateContentConfig(
-            system_instruction=system_instruction,
-            response_mime_type="application/json",
-            temperature=temperature,
-            thinking_config=types.ThinkingConfig(thinking_budget=0),
-        ),
-    )
-    return json.loads(_clean_json(response.text))
+    try:
+        response = client.models.generate_content(
+            model=GEMINI_MODEL,
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                system_instruction=system_instruction,
+                response_mime_type="application/json",
+                temperature=temperature,
+            ),
+        )
+        response_text = _extract_response_text(response)
+        return json.loads(_clean_json(response_text))
+    except Exception:
+        logger.exception("Error generando JSON con Gemini. model=%s", GEMINI_MODEL)
+        raise
 
 
 async def analizar_imagen(image_base64: str, condicion_medica: str = "ninguna") -> FoodScanResponse:
@@ -100,16 +128,19 @@ Responde solo JSON valido con este esquema exacto:
 }}
 """
 
-    response = client.models.generate_content(
-        model=GEMINI_MODEL,
-        contents=[prompt.strip(), image_part],
-        config=types.GenerateContentConfig(
-            response_mime_type="application/json",
-            temperature=0.2,
-            thinking_config=types.ThinkingConfig(thinking_budget=0),
-        ),
-    )
-    data = json.loads(_clean_json(response.text))
+    try:
+        response = client.models.generate_content(
+            model=GEMINI_MODEL,
+            contents=[prompt.strip(), image_part],
+            config=types.GenerateContentConfig(
+                response_mime_type="application/json",
+                temperature=0.2,
+            ),
+        )
+        data = json.loads(_clean_json(_extract_response_text(response)))
+    except Exception:
+        logger.exception("Error analizando imagen con Gemini. model=%s", GEMINI_MODEL)
+        raise
 
     return FoodScanResponse(
         alimento_detectado=data["alimento_detectado"],

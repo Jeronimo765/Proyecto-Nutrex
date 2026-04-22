@@ -1,3 +1,5 @@
+import logging
+
 from fastapi import APIRouter, HTTPException
 from app.models.nutrition import (
     NutritionPlanRequest, NutritionPlanResponse,
@@ -11,6 +13,7 @@ from app.services.ai_service import (
 )
 
 router = APIRouter(prefix="/nutrition", tags=["Nutricion"])
+logger = logging.getLogger(__name__)
 
 @router.post("/plans", response_model=NutritionPlanResponse)
 async def get_nutrition_plan(request: NutritionPlanRequest):
@@ -31,4 +34,5 @@ async def chat_with_nutribot(request: ChatRequest):
     try:
         return await chat_nutribot(request)
     except Exception as e:
+        logger.exception("Fallo en /nutrition/chat")
         raise HTTPException(status_code=500, detail=str(e))
