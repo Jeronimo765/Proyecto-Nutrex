@@ -9,20 +9,35 @@
         </div>
       </a>
 
-      <nav class="menu" aria-label="Principal">
-        <a routerLink="/" class="menu__link">Inicio</a>
-        <a routerLink="/planes" class="menu__link">Planes</a>
-        <a routerLink="/recetas" class="menu__link">Recetas</a>
-        <a routerLink="/chat" class="menu__link">NutriBot</a>
-        <a routerLink="/contacto" routerLinkActive="active" class="menu__link">Contacto</a>
-      </nav>
+      <button
+        type="button"
+        class="menu-toggle"
+        [class.menu-toggle--active]="isMenuOpen"
+        (click)="toggleMenu()"
+        [attr.aria-expanded]="isMenuOpen"
+        aria-controls="primary-navigation"
+        aria-label="Abrir menu principal">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
 
-      <div class="topbar__actions">
-        <a class="btn btn-ghost" routerLink="/planes">Explorar</a>
-        <a *ngIf="!isLoggedIn" class="btn btn-outline" routerLink="/auth/login">Ingresar</a>
-        <a *ngIf="!isLoggedIn" class="btn btn-primary" routerLink="/auth/register">Registrate</a>
-        <a *ngIf="isLoggedIn" class="btn btn-primary" routerLink="/dashboard">Mi panel</a>
-        <button *ngIf="isLoggedIn" type="button" class="btn btn-outline" (click)="logout()">Cerrar sesion</button>
+      <div class="topbar__nav" [class.topbar__nav--open]="isMenuOpen" id="primary-navigation">
+        <nav class="menu" aria-label="Principal">
+          <a routerLink="/" class="menu__link" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMenu()">Inicio</a>
+          <a routerLink="/planes" class="menu__link" routerLinkActive="active" (click)="closeMenu()">Planes</a>
+          <a routerLink="/recetas" class="menu__link" routerLinkActive="active" (click)="closeMenu()">Recetas</a>
+          <a routerLink="/chat" class="menu__link" routerLinkActive="active" (click)="closeMenu()">NutriBot</a>
+          <a routerLink="/contacto" routerLinkActive="active" class="menu__link" (click)="closeMenu()">Contacto</a>
+        </nav>
+
+        <div class="topbar__actions">
+          <a class="btn btn-ghost" routerLink="/planes" (click)="closeMenu()">Explorar</a>
+          <a *ngIf="!isLoggedIn" class="btn btn-outline" routerLink="/auth/login" (click)="closeMenu()">Ingresar</a>
+          <a *ngIf="!isLoggedIn" class="btn btn-primary" routerLink="/auth/register" (click)="closeMenu()">Registrate</a>
+          <a *ngIf="isLoggedIn" class="btn btn-primary" routerLink="/dashboard" (click)="closeMenu()">Mi panel</a>
+          <button *ngIf="isLoggedIn" type="button" class="btn btn-outline" (click)="logout()">Cerrar sesion</button>
+        </div>
       </div>
     </div>
   </header>

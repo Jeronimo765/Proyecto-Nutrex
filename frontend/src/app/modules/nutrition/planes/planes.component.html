@@ -62,8 +62,13 @@
       <span class="detalle-tipo">{{ planSeleccionado.tipoPlan }}</span>
       <strong>{{ planSeleccionado.objetivo }}</strong>
     </div>
-    <button type="button" class="btn btn-primary" (click)="activarPlan(planSeleccionado)">
-      Usar este plan en mi panel
+    <button
+      type="button"
+      class="btn"
+      [ngClass]="isPlanActivo(planSeleccionado) ? 'btn-outline' : 'btn-primary'"
+      [disabled]="isPlanActivo(planSeleccionado)"
+      (click)="usarPlanEnPanel(planSeleccionado)">
+      {{ isPlanActivo(planSeleccionado) ? 'Ya escogiste este plan' : 'Usar este plan en mi panel' }}
     </button>
   </div>
 

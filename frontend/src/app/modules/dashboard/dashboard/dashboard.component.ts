@@ -71,7 +71,7 @@ export class DashboardComponent implements OnInit {
   }
 
   get caloriesGoal(): number {
-    return this.summary?.caloriesGoal ?? 1800;
+    return this.selectedPlan?.dailyCaloriesGoal ?? this.summary?.caloriesGoal ?? 1800;
   }
 
   get carbs(): number {

@@ -46,6 +46,10 @@
         {{ calories }} <span>/ {{ caloriesGoal }} kcal</span>
       </div>
 
+      <p class="summary-card__description" *ngIf="selectedPlan">
+        Meta diaria ajustada segun tu plan activo.
+      </p>
+
       <div class="progress">
         <div
           class="progress__fill"
@@ -177,7 +181,7 @@
     <p>
       {{ selectedPlan ? selectedPlan.enfoque[0] : 'Tu nivel de fibra esta excelente. Para la cena, opta por proteina magra y verduras sin almidon para mantener la glucosa estable durante la noche.' }}
     </p>
-    <button type="button" class="btn btn-primary tip__btn">
+    <button type="button" class="btn btn-primary tip__btn" routerLink="/chat">
       Preguntarle mas a NutriBot
     </button>
   </section>

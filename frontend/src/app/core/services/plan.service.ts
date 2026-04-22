@@ -20,6 +20,7 @@ export interface Plan {
   alimentos: string[];
   evitar: string[];
   semanas: SemanaPlan[];
+  dailyCaloriesGoal?: number;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -34,14 +35,17 @@ export class PlanService {
   }
 
   saveSelectedPlan(plan: Plan): void {
-    localStorage.setItem(this.selectedPlanStorageKey, JSON.stringify(plan));
+    localStorage.setItem(
+      this.selectedPlanStorageKey,
+      JSON.stringify(this.normalizePlan(plan))
+    );
   }
 
   getSelectedPlan(): Plan | null {
     const rawPlan = localStorage.getItem(this.selectedPlanStorageKey);
     if (!rawPlan) return null;
     try {
-      return JSON.parse(rawPlan) as Plan;
+      return this.normalizePlan(JSON.parse(rawPlan) as Plan);
     } catch {
       localStorage.removeItem(this.selectedPlanStorageKey);
       return null;
@@ -72,6 +76,43 @@ export class PlanService {
     }
     const parsed = JSON.parse(trimmed) as Plan[];
     if (!Array.isArray(parsed)) throw new Error('La respuesta de planes no tiene el formato esperado.');
-    return parsed;
+    return parsed.map((plan) => this.normalizePlan(plan));
+  }
+
+  private normalizePlan(plan: Plan): Plan {
+    return {
+      ...plan,
+      dailyCaloriesGoal: plan.dailyCaloriesGoal ?? this.estimateCaloriesGoal(plan)
+    };
+  }
+
+  private estimateCaloriesGoal(plan: Plan): number {
+    const text = `${plan.id} ${plan.condicion} ${plan.tipoPlan} ${plan.objetivo} ${plan.descripcion}`.toLowerCase();
+
+    if (this.matchesAny(text, ['bajar peso', 'perder peso', 'deficit', 'adelgazar'])) {
+      return 1600;
+    }
+
+    if (this.matchesAny(text, ['ganar masa', 'hipertrofia', 'subir masa', 'aumentar musculo'])) {
+      return 2300;
+    }
+
+    if (this.matchesAny(text, ['diabetes', 'glucosa', 'resistencia a la insulina'])) {
+      return 1800;
+    }
+
+    if (this.matchesAny(text, ['renal', 'rinon', 'riñon', 'hipertension', 'hipertensión', 'cardi'])) {
+      return 1700;
+    }
+
+    if (this.matchesAny(text, ['embarazo', 'gestacion', 'gestación'])) {
+      return 2200;
+    }
+
+    return 2000;
+  }
+
+  private matchesAny(text: string, keywords: string[]): boolean {
+    return keywords.some((keyword) => text.includes(keyword));
   }
 }

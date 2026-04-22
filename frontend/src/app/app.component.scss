@@ -25,6 +25,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  position: relative;
 }
 
 .brand {
@@ -57,10 +58,19 @@
   }
 }
 
+.topbar__nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1.25rem;
+  flex: 1;
+}
+
 .menu {
   display: flex;
   align-items: center;
   gap: 1.4rem;
+  flex-wrap: wrap;
 }
 
 .menu__link {
@@ -68,6 +78,8 @@
   text-decoration: none;
   font-weight: 500;
   position: relative;
+  padding: 0.35rem 0;
+  white-space: nowrap;
 
   &::after {
     content: '';
@@ -85,11 +97,55 @@
   &:hover::after {
     transform: scaleX(1);
   }
+
+  &.active::after {
+    transform: scaleX(1);
+  }
 }
 
 .topbar__actions {
   display: flex;
+  align-items: center;
+  flex-wrap: wrap;
   gap: 0.75rem;
+}
+
+.menu-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.28rem;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  border: 1px solid rgba(44, 59, 10, 0.12);
+  border-radius: 0.95rem;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+
+  span {
+    width: 1.2rem;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--color-forest);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+}
+
+.menu-toggle--active {
+  span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  span:nth-child(2) {
+    opacity: 0;
+  }
+
+  span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
 }
 
 .hero-carousel {
@@ -239,6 +295,20 @@
 }
 
 @media (max-width: 980px) {
+  .topbar__content {
+    align-items: flex-start;
+    padding-top: 0.85rem;
+    padding-bottom: 0.85rem;
+  }
+
+  .topbar__nav {
+    gap: 1rem;
+  }
+
+  .menu {
+    gap: 1rem;
+  }
+
   .hero-carousel__content {
     grid-template-columns: 1fr;
   }
@@ -257,13 +327,69 @@
 }
 
 @media (max-width: 760px) {
-  .menu,
-  .topbar__actions .btn-ghost {
+  .topbar__content {
+    min-height: 4.5rem;
+    align-items: center;
+    padding-top: 0.65rem;
+    padding-bottom: 0.65rem;
+  }
+
+  .brand {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .brand__copy span {
+    font-size: 0.78rem;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+  }
+
+  .topbar__nav {
+    position: absolute;
+    top: calc(100% + 0.55rem);
+    left: 0.9rem;
+    right: 0.9rem;
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid rgba(44, 59, 10, 0.08);
+    border-radius: 1.25rem;
+    background: rgba(247, 244, 237, 0.98);
+    box-shadow: 0 20px 40px rgba(44, 59, 10, 0.12);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-10px);
+    transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;
+  }
+
+  .topbar__nav--open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .menu {
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .menu__link {
+    padding: 0.7rem 0.8rem;
+    border-radius: 0.85rem;
+    background: rgba(255, 255, 255, 0.72);
+  }
+
+  .menu__link::after {
     display: none;
   }
 
-  .topbar__content {
-    min-height: 4.5rem;
+  .menu__link.active {
+    background: rgba(184, 216, 154, 0.45);
   }
 
   .hero-carousel {
@@ -290,8 +416,19 @@
 }
 
 @media (max-width: 520px) {
+  .topbar__nav {
+    left: 0.65rem;
+    right: 0.65rem;
+  }
+
   .topbar__actions {
-    display: none;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .topbar__actions .btn,
+  .topbar__actions button {
+    width: 100%;
   }
 
   .hero-copy__actions {
@@ -305,5 +442,19 @@
   .carousel-card,
   .carousel-slide {
     min-height: 18rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .topbar__content {
+    gap: 2rem;
+  }
+
+  .topbar__nav {
+    gap: 1.75rem;
+  }
+
+  .menu {
+    gap: 1.75rem;
   }
 }

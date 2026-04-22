@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 
@@ -17,6 +17,7 @@ interface CarouselSlide {
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit, OnDestroy {
+  private readonly mobileMenuBreakpoint = 760;
   readonly slides: CarouselSlide[] = [
     {
       image: 'assets/carousel-figs.jpg',
@@ -52,6 +53,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   currentSlide = 0;
   isHomeRoute = true;
+  isMenuOpen = false;
   private carouselIntervalId: ReturnType<typeof setInterval> | null = null;
 
   constructor(
@@ -70,6 +72,21 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.clearCarousel();
+  }
+
+  @HostListener('window:resize')
+  onWindowResize(): void {
+    if (window.innerWidth > this.mobileMenuBreakpoint) {
+      this.isMenuOpen = false;
+    }
+  }
+
+  toggleMenu(): void {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  closeMenu(): void {
+    this.isMenuOpen = false;
   }
 
   goToSlide(index: number): void {
@@ -105,6 +122,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private updateLayoutForRoute(url: string): void {
     this.isHomeRoute = url === '/' || url === '';
+    this.closeMenu();
 
     if (this.isHomeRoute) {
       this.startCarousel();
